@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@android:color/white"
+        android:elevation="4dp"
+        android:layout_margin="8dp">
+
+        <!-- 代币名称 -->
+        <TextView
+            android:id="@+id/tokenNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="代币名称"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp"
+            android:textColor="#000000"/>
+
+        <!-- 代币符号 -->
+        <TextView
+            android:id="@+id/tokenSymbolTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="符号"
+            android:textSize="20sp"
+            android:layout_marginBottom="8dp"
+            android:textColor="#666666"/>
+
+        <!-- 当前价格 -->
+        <TextView
+            android:id="@+id/tokenPriceTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前价格"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"
+            android:textColor="#228B22"/>
+
+        <!-- 代币简介 -->
+        <TextView
+            android:id="@+id/tokenDescriptionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="代币简介"
+            android:textSize="18sp"
+            android:layout_marginTop="12dp"
+            android:textColor="#333333"/>
+    </LinearLayout>
+</ScrollView>

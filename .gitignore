@@ -1,0 +1,28 @@
+*.iml
+.gradle
+/local.properties
+/.idea/*
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+
+# Ignore config-properties folder
+/assets/config-properties/
+
+# Lint
+/lint/intermediates/
+/output/
+
+# Android/IntelliJ
+.idea/
+.gradle/
+build/
+
+# Ignore log files and temporary files
+*.log
+
+# Proguard
+proguard-rules.pro
+proguard/

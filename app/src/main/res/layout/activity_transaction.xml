@@ -1,0 +1,106 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+
+        android:backgroundTint="#87CEEB"
+        android:background="@drawable/black_border_background"
+        android:layout_marginBottom="16dp">
+
+        <!-- 收款地址输入框 -->
+        <EditText
+            android:id="@+id/editReceiverAddress"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:hint="收款地址"
+            android:inputType="text"
+            android:padding="12dp"
+            android:background="@android:drawable/editbox_background"
+            android:layout_marginBottom="-4dp"/>
+
+        <!-- 金额输入框 -->
+        <EditText
+            android:id="@+id/editAmount"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:hint="金额 (ETH)"
+            android:inputType="numberDecimal"
+            android:padding="12dp"
+            android:background="@android:drawable/editbox_background"
+            android:layout_marginBottom="-4dp"/>
+
+        <!-- 历史记录按钮 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnRecords"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:text="历史记录"
+                android:textSize="16sp"
+                android:background="@android:drawable/editbox_background"
+                android:padding="12dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- transaction logo -->
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/transactionlogo"
+        android:background="@drawable/circle_border"
+        android:layout_marginTop="80dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="360dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp">
+
+        <!-- 发送按钮 -->
+        <Button
+            android:id="@+id/btnSend"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_weight="1"
+            android:text="发送"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:padding="12dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginStart="12dp"
+            android:backgroundTint="#FF7B6C"/>
+
+        <!-- 接收按钮 -->
+        <Button
+            android:id="@+id/btnReceive"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_weight="1"
+            android:text="接收"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:padding="12dp"
+            android:layout_marginEnd="12dp"
+            android:backgroundTint="#3DDC80"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,149 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp"
+        android:layout_alignParentTop="true"
+        android:backgroundTint="#87CEEB"
+        android:background="@drawable/black_border_background">
+
+        <EditText
+            android:id="@+id/editWalletAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:hint="输入钱包地址"
+            android:inputType="text"
+            android:padding="12dp"
+            android:background="@android:drawable/editbox_background"/>
+
+        <Button
+            android:id="@+id/btnSaveAddress"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="保存"
+            android:padding="12dp"
+            android:layout_marginLeft="-3dp"
+            android:background="@android:drawable/editbox_background"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ethLogo"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ethlogo"/>
+
+    <!-- 智能合约入口按钮 -->
+    <Button
+        android:id="@+id/btnSmartContract"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ethLogo"
+        android:layout_marginTop="24dp"
+        android:padding="14dp"
+        android:text="ERC-20智能合约入口"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="#85BB65" />
+
+    <!-- 显示余额的文本视图 -->
+    <LinearLayout
+        android:id="@+id/balanceRow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_above="@id/ethLogo"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="82dp">
+
+        <!-- 显示余额 -->
+        <TextView
+            android:id="@+id/textBalance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="余额: 0 ETH"
+            android:textSize="18sp"
+            android:padding="12dp"
+            android:gravity="center"/>
+
+        <Space
+            android:layout_width="16dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/authButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_above="@id/ethLogo"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="12dp">
+
+        <!-- 设置接口按钮 -->
+        <Button
+            android:id="@+id/btnGoToApiKey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="设置接口"
+            android:padding="14dp"
+            android:layout_marginEnd="48dp"/>
+
+        <!-- 我的账号按钮 -->
+        <Button
+            android:id="@+id/btnMyAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的账号"
+            android:padding="14dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomButtons"
+        android:layout_width="345dp"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/border_main">
+
+        <!-- 查询代币按钮 -->
+        <Button
+            android:id="@+id/btnQueryTokens"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查询代币"
+            android:padding="12dp"
+            android:layout_marginEnd="32dp"/>
+
+        <!-- 转账按钮 -->
+        <Button
+            android:id="@+id/btnTransfer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="↑↓"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:textColor="#FFD700"
+            android:gravity="center"
+            android:layout_marginEnd="32dp" />
+
+        <!-- 查询余额按钮 -->
+        <Button
+            android:id="@+id/btnCheckBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="查询余额"
+            android:padding="12dp"/>
+    </LinearLayout>
+
+</RelativeLayout>

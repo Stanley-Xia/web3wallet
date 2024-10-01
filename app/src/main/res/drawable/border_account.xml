@@ -1,0 +1,13 @@
+<!-- res/drawable/border_account.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FFFFFF"/> <!-- 背景颜色，设置为白色或者透明 -->
+    <stroke
+        android:width="2dp"
+        android:color="#000000"/> <!-- 边框颜色和宽度 -->
+    <corners android:radius="8dp"/> <!-- 圆角半径 -->
+    <padding
+        android:left="10dp"
+        android:top="10dp"
+        android:right="10dp"
+        android:bottom="10dp"/> <!-- 内边距 -->
+</shape>

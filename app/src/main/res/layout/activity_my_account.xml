@@ -1,0 +1,147 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/black_border_background"
+        android:backgroundTint="#87CEEB"
+
+        android:layout_gravity="top">
+
+        <!-- 用户名显示 -->
+        <TextView
+            android:id="@+id/tv_account_name"
+            android:layout_width="match_parent"
+            android:layout_height="128dp"
+            android:text="您当前未登录账号"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#FFA500"
+            android:padding="12dp"
+            android:gravity="center"
+            android:background="@android:drawable/editbox_background"
+            android:layout_marginBottom="-4dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <!-- 登录按钮 -->
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="登录"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:padding="12dp"
+                android:layout_marginEnd="-4dp"
+                android:background="@android:drawable/editbox_background"/>
+
+            <!-- 注册按钮 -->
+            <Button
+                android:id="@+id/btnRegister"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="注册"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:padding="12dp"
+                android:background="@android:drawable/editbox_background"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 提示信息 -->
+    <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="108dp"
+        android:orientation="vertical"
+        android:background="@drawable/rounded_background"
+        android:layout_marginTop="128dp"
+        android:gravity="center"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="导出私钥注意风险，请妥善保管私钥\n Be aware of the risks when\n exporting private keys. Please keep\n your private keys safe."
+            android:textSize="16sp"
+            android:textColor="#FFA500"
+            android:gravity="center"
+            android:padding="12dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <!-- 退出登录按钮 -->
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="330dp"
+            android:layout_height="55dp"
+            android:text="退出登录"
+            android:backgroundTint="#85BB65"
+            android:layout_marginTop="32dp"
+            android:padding="12dp"/>
+
+        <!-- 导入私钥按钮 -->
+        <Button
+            android:id="@+id/btnImportKeys"
+            android:layout_width="330dp"
+            android:layout_height="55dp"
+            android:text="导入私钥"
+            android:backgroundTint="#85BB65"
+            android:layout_marginTop="8dp"
+            android:padding="12dp"/>
+
+        <!-- 导出私钥按钮 -->
+        <Button
+            android:id="@+id/btnExportKeys"
+            android:layout_width="330dp"
+            android:layout_height="55dp"
+            android:text="导出私钥"
+            android:backgroundTint="#85BB65"
+            android:layout_marginTop="8dp"
+            android:padding="12dp"/>
+
+        <LinearLayout
+            android:layout_width="330dp"
+            android:layout_height="55dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="8dp">
+
+            <!-- 更多按钮 -->
+            <Button
+                android:id="@+id/btnMoreFeatures"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="更多"
+                android:padding="12dp"
+                android:layout_marginEnd="12dp"/>
+
+            <!-- 返回按钮 -->
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="返回"
+                android:padding="12dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

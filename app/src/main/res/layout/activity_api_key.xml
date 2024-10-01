@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Etherscan API Key 输入框 -->
+    <EditText
+        android:id="@+id/editApiKey"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:hint="输入Etherscan API Key"
+        android:inputType="text"
+        android:textSize="16sp"
+        android:padding="12dp"
+        android:background="@drawable/text_custom_background"
+        android:layout_marginBottom="12dp"/>
+
+    <!-- 保存 API Key 按钮 -->
+    <Button
+        android:id="@+id/btnSaveApiKey"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:textSize="16sp"
+        android:layout_gravity="center"
+        android:text="保存 API Key"
+        android:padding="12dp"/>
+</LinearLayout>
