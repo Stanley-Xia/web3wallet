@@ -36,9 +36,8 @@ public class TransactionActivity extends AppCompatActivity {
     // 数据库助手实例
     private UserDatabaseHelper databaseHelper;
 
-    // Alchemy API URL 和 Etherscan API Key
+    // Alchemy API URL
     private String alchemyUrl;
-    private String etherscanApiKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +45,11 @@ public class TransactionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_transaction);
 
         // 初始化 UI 元素
-        editReceiverAddress = findViewById(R.id.editReceiverAddress);  // 收款地址输入框
-        editAmount = findViewById(R.id.editAmount);  // 交易金额输入框
-        btnSend = findViewById(R.id.btnSend);  // 发送交易按钮
-        btnReceive = findViewById(R.id.btnReceive);  // 接收钱包地址按钮
-        btnRecords = findViewById(R.id.btnRecords);  // 记录按钮
+        editReceiverAddress = findViewById(R.id.editReceiverAddress);
+        editAmount = findViewById(R.id.editAmount);
+        btnSend = findViewById(R.id.btnSend);
+        btnReceive = findViewById(R.id.btnReceive);
+        btnRecords = findViewById(R.id.btnRecords);
 
         // 初始化数据库助手
         databaseHelper = new UserDatabaseHelper(this);
@@ -73,7 +72,7 @@ public class TransactionActivity extends AppCompatActivity {
                     // 从数据库中获取用户的私钥
                     String username = sharedPreferences.getString("username", null);
                     if (username != null) {
-                        String privateKey = databaseHelper.getPrivateKey(username);  // 从数据库获取私钥
+                        String privateKey = databaseHelper.getPrivateKey(username);
                         if (privateKey != null) {
                             // 调用发送交易的方法
                             sendTransaction(privateKey, receiverAddress, amount);
@@ -152,9 +151,8 @@ public class TransactionActivity extends AppCompatActivity {
             InputStream inputStream = getAssets().open("config.properties");
             properties.load(inputStream);
 
-            // 读取 Alchemy URL 和 Etherscan API Key
+            // 读取 Alchemy URL
             alchemyUrl = properties.getProperty("alchemy.api.url");
-            etherscanApiKey = properties.getProperty("etherscan.api.key");
 
         } catch (IOException e) {
             e.printStackTrace();

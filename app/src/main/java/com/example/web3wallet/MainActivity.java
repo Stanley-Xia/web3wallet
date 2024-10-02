@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 
-        // 跳转到 API Key 设置界面
+        // 设置接口按钮点击事件
         btnGoToApiKey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // 加载保存的钱包地址
         loadSavedWalletAddress();
     }
 
@@ -151,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
     // 将钱包地址与当前登录的用户关联
     private void saveWalletAddressForUser(String username, String walletAddress) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(username + "_walletAddress", walletAddress); // 保存与用户名关联的钱包地址
+        editor.putString(username + "_walletAddress", walletAddress);
         editor.apply();
     }
 

@@ -1,8 +1,10 @@
 package com.example.web3wallet;
 
-import android.content.res.AssetManager;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,8 +15,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -25,6 +25,7 @@ import okhttp3.Response;
 public class TransactionHistoryActivity extends AppCompatActivity {
 
     private LinearLayout transactionHistoryLayout;
+    private ProgressBar progressBar; // 添加 ProgressBar
     private String etherscanApiKey;
 
     @Override
@@ -32,14 +33,16 @@ public class TransactionHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_history);
 
-        // 初始化 LinearLayout，用于动态添加交易记录
+        // 初始化 UI 元素
         transactionHistoryLayout = findViewById(R.id.transactionHistoryLayout);
+        progressBar = findViewById(R.id.progressBar); // 初始化 ProgressBar
 
-        // 从配置文件加载 API 密钥
-        etherscanApiKey = loadApiKeyFromConfig();
+        // 从 SharedPreferences 加载 API 密钥
+        SharedPreferences sharedPreferences = getSharedPreferences("WalletPrefs", MODE_PRIVATE);
+        etherscanApiKey = sharedPreferences.getString("apiKey", null);
 
         if (etherscanApiKey == null) {
-            Toast.makeText(this, "API 密钥加载失败", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "API 密钥未设置", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -52,22 +55,12 @@ public class TransactionHistoryActivity extends AppCompatActivity {
         }
     }
 
-    // 加载 API 密钥的方法
-    private String loadApiKeyFromConfig() {
-        try {
-            AssetManager assetManager = getAssets();
-            InputStream inputStream = assetManager.open("config.properties");
-            Properties properties = new Properties();
-            properties.load(inputStream);
-            return properties.getProperty("etherscan.api.key"); // 确保与 config.properties 中的键名一致
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     // 加载交易历史的方法
     private void loadTransactionHistory(String walletAddress) {
+        // 显示 ProgressBar 并隐藏内容
+        progressBar.setVisibility(View.VISIBLE);
+        transactionHistoryLayout.setVisibility(View.GONE);
+
         OkHttpClient client = new OkHttpClient();
         String url = "https://api.etherscan.io/api?module=account&action=txlist&address=" + walletAddress +
                 "&startblock=0&endblock=99999999&sort=asc&apikey=" + etherscanApiKey;
@@ -77,9 +70,12 @@ public class TransactionHistoryActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
-                runOnUiThread(() ->
-                        Toast.makeText(TransactionHistoryActivity.this, "加载交易历史失败：" + e.getMessage(), Toast.LENGTH_SHORT).show()
-                );
+                runOnUiThread(() -> {
+                    // 隐藏 ProgressBar 并显示错误提示
+                    progressBar.setVisibility(View.GONE);
+                    transactionHistoryLayout.setVisibility(View.VISIBLE);
+                    Toast.makeText(TransactionHistoryActivity.this, "加载交易历史失败：" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
             }
 
             @Override
@@ -111,6 +107,11 @@ public class TransactionHistoryActivity extends AppCompatActivity {
 
                                         transactionHistoryLayout.addView(textView);
                                     }
+
+                                    // 加载完成后隐藏 ProgressBar 并显示内容
+                                    progressBar.setVisibility(View.GONE);
+                                    transactionHistoryLayout.setVisibility(View.VISIBLE);
+
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                     Toast.makeText(TransactionHistoryActivity.this, "解析交易记录失败", Toast.LENGTH_SHORT).show();
@@ -118,20 +119,26 @@ public class TransactionHistoryActivity extends AppCompatActivity {
                             });
                         } else {
                             String message = json.getString("message");
-                            runOnUiThread(() ->
-                                    Toast.makeText(TransactionHistoryActivity.this, "加载交易历史失败：" + message, Toast.LENGTH_SHORT).show()
-                            );
+                            runOnUiThread(() -> {
+                                progressBar.setVisibility(View.GONE);
+                                transactionHistoryLayout.setVisibility(View.VISIBLE);
+                                Toast.makeText(TransactionHistoryActivity.this, "加载交易历史失败：" + message, Toast.LENGTH_SHORT).show();
+                            });
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        runOnUiThread(() ->
-                                Toast.makeText(TransactionHistoryActivity.this, "解析交易记录失败", Toast.LENGTH_SHORT).show()
-                        );
+                        runOnUiThread(() -> {
+                            progressBar.setVisibility(View.GONE);
+                            transactionHistoryLayout.setVisibility(View.VISIBLE);
+                            Toast.makeText(TransactionHistoryActivity.this, "解析交易记录失败", Toast.LENGTH_SHORT).show();
+                        });
                     }
                 } else {
-                    runOnUiThread(() ->
-                            Toast.makeText(TransactionHistoryActivity.this, "加载交易历史失败：请求失败", Toast.LENGTH_SHORT).show()
-                    );
+                    runOnUiThread(() -> {
+                        progressBar.setVisibility(View.GONE);
+                        transactionHistoryLayout.setVisibility(View.VISIBLE);
+                        Toast.makeText(TransactionHistoryActivity.this, "加载交易历史失败：请求失败", Toast.LENGTH_SHORT).show();
+                    });
                 }
             }
         });

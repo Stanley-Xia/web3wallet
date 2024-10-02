@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ApiKeyActivity extends AppCompatActivity {
 
-    // UI 元素：API Key 输入框和保存按钮
+    // API Key 输入框和保存按钮
     private EditText editApiKey;
     private Button btnSaveApiKey;
 
@@ -31,7 +31,7 @@ public class ApiKeyActivity extends AppCompatActivity {
         editApiKey = findViewById(R.id.editApiKey);
         btnSaveApiKey = findViewById(R.id.btnSaveApiKey);
 
-        // 获取 SharedPreferences 实例，用于存储和读取 API Key
+        // 获取 SharedPreferences 实例
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 
         // 从 SharedPreferences 中读取已保存的 API Key，并设置到输入框中
@@ -46,15 +46,14 @@ public class ApiKeyActivity extends AppCompatActivity {
 
                 // 检查输入框是否为空
                 if (!apiKey.isEmpty()) {
-                    // 将 API Key 保存到 SharedPreferences 中
+                    // 将 API Key 保存到 SharedPreferences
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString(KEY_API, apiKey);
-                    editor.apply(); // 异步提交更改
+                    editor.apply();
 
                     // 显示保存成功的提示
                     Toast.makeText(ApiKeyActivity.this, "API Key 已保存", Toast.LENGTH_SHORT).show();
 
-                    // 关闭当前 Activity，返回主界面
                     finish();
                 } else {
                     // 提示用户输入有效的 API Key
