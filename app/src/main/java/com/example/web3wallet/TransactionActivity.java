@@ -20,10 +20,7 @@ import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.Properties;
 
 public class TransactionActivity extends AppCompatActivity {
 
@@ -54,10 +51,14 @@ public class TransactionActivity extends AppCompatActivity {
         // 初始化数据库助手
         databaseHelper = new UserDatabaseHelper(this);
 
-        // 加载本地的 API 配置
-        loadApiKeysFromProperties();
-
+        // 从 SharedPreferences 加载 Alchemy API URL
         SharedPreferences sharedPreferences = getSharedPreferences("WalletPrefs", MODE_PRIVATE);
+        alchemyUrl = sharedPreferences.getString("alchemyapi", null);  // 从 SharedPreferences 读取 alchemyapi
+
+        if (alchemyUrl == null || alchemyUrl.isEmpty()) {
+            Toast.makeText(this, "Alchemy API 未设置", Toast.LENGTH_SHORT).show();
+            return; // 如果 API Key 未设置，直接返回
+        }
 
         // 发送按钮点击事件
         btnSend.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +124,6 @@ public class TransactionActivity extends AppCompatActivity {
         btnRecords.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences sharedPreferences = getSharedPreferences("WalletPrefs", MODE_PRIVATE);
                 String username = sharedPreferences.getString("username", null);
                 if (username != null) {
                     String walletAddress = sharedPreferences.getString(username + "_walletAddress", null);
@@ -143,29 +143,12 @@ public class TransactionActivity extends AppCompatActivity {
 
     }
 
-    // 加载 API 密钥的方法
-    private void loadApiKeysFromProperties() {
-        Properties properties = new Properties();
-        try {
-            // 从 assets 文件夹中加载 config.properties 文件
-            InputStream inputStream = getAssets().open("config.properties");
-            properties.load(inputStream);
-
-            // 读取 Alchemy URL
-            alchemyUrl = properties.getProperty("alchemy.api.url");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "无法加载 API 密钥", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     // 发送交易的方法
     private void sendTransaction(String privateKey, String receiverAddress, String amount) {
         new Thread(() -> {
             try {
                 // 连接到以太坊网络 (Alchemy)
-                Web3j web3 = Web3j.build(new HttpService(alchemyUrl));
+                Web3j web3 = Web3j.build(new HttpService(alchemyUrl));  // 使用 SharedPreferences 中的 alchemyUrl
 
                 // 使用用户的私钥生成 Credentials
                 Credentials credentials = Credentials.create(privateKey);

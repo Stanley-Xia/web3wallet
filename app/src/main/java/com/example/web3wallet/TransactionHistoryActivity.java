@@ -39,7 +39,7 @@ public class TransactionHistoryActivity extends AppCompatActivity {
 
         // 从 SharedPreferences 加载 API 密钥
         SharedPreferences sharedPreferences = getSharedPreferences("WalletPrefs", MODE_PRIVATE);
-        etherscanApiKey = sharedPreferences.getString("apiKey", null);
+        etherscanApiKey = sharedPreferences.getString("etherscanapi", null);
 
         if (etherscanApiKey == null) {
             Toast.makeText(this, "API 密钥未设置", Toast.LENGTH_SHORT).show();

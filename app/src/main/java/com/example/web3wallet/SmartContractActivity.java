@@ -24,7 +24,7 @@ public class SmartContractActivity extends AppCompatActivity {
         webView.setWebViewClient(new WebViewClient()); // 保证页面在应用内加载
 
         // 加载 DappRadar 网站
-        webView.loadUrl("https://dappradar.com");
+        webView.loadUrl("https://dappradar.com/radar/resources");
     }
 
     // 处理返回按钮的行为，如果 WebView 能返回上一页面，则返回上一页面

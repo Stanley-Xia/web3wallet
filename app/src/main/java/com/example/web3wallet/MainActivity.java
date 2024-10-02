@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
 
     private static final String PREFS_NAME = "WalletPrefs";
-    private static final String KEY_API = "apiKey";
+    private static final String KEY_ETHERSCAN_API = "etherscanapi";
     private static final String KEY_WALLET = "walletAddress";
     private static final String KEY_USERNAME = "username";
 
@@ -72,12 +72,12 @@ public class MainActivity extends AppCompatActivity {
         btnCheckBalance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String apiKey = sharedPreferences.getString(KEY_API, "");
+                String etherscanapi = sharedPreferences.getString(KEY_ETHERSCAN_API, "");
                 String walletAddress = editWalletAddress.getText().toString();
 
-                if (!apiKey.isEmpty() && !walletAddress.isEmpty()) {
+                if (!etherscanapi.isEmpty() && !walletAddress.isEmpty()) {
                     saveWalletAddress(walletAddress);
-                    checkBalance(apiKey, walletAddress);
+                    checkBalance(etherscanapi, walletAddress);
                 } else {
                     Toast.makeText(MainActivity.this, "请设置API Key和钱包地址", Toast.LENGTH_SHORT).show();
                 }
@@ -164,8 +164,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // 查询余额函数
-    private void checkBalance(String apiKey, String walletAddress) {
-        String url = "https://api.etherscan.io/api?module=account&action=balance&address=" + walletAddress + "&tag=latest&apikey=" + apiKey;
+    private void checkBalance(String etherscanapi, String walletAddress) {
+        String url = "https://api.etherscan.io/api?module=account&action=balance&address=" + walletAddress + "&tag=latest&apikey=" + etherscanapi;
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(url).build();
