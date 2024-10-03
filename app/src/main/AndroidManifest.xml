@@ -33,7 +33,7 @@
         <activity android:name=".SmartContractActivity" />
         <activity android:name=".MyAccountActivity"/>
         <activity android:name=".TransactionHistoryActivity"/>
-
+        <activity android:name=".MoreFeaturesActivity"/>
 
     </application>
 

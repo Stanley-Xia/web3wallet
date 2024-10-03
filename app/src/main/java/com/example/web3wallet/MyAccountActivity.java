@@ -44,7 +44,7 @@ public class MyAccountActivity extends AppCompatActivity {
 
         loadSavedUsername();
 
-        // 设置登录按钮点击事件
+        // 登录按钮点击事件
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,7 +53,7 @@ public class MyAccountActivity extends AppCompatActivity {
             }
         });
 
-        // 设置注册按钮点击事件
+        // 注册按钮点击事件
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,7 +62,7 @@ public class MyAccountActivity extends AppCompatActivity {
             }
         });
 
-        // 设置退出登录按钮点击事件
+        // 退出登录按钮点击事件
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,7 +70,18 @@ public class MyAccountActivity extends AppCompatActivity {
             }
         });
 
-        // 设置返回按钮点击事件
+        // 更多按钮点击事件
+        Button btnMoreFeatures = findViewById(R.id.btnMoreFeatures);
+
+        btnMoreFeatures.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyAccountActivity.this, MoreFeaturesActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // 返回按钮点击事件
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,7 +92,7 @@ public class MyAccountActivity extends AppCompatActivity {
             }
         });
 
-        // 设置导入私钥按钮点击事件
+        // 导入私钥按钮点击事件
         btnImportKeys.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,7 +100,7 @@ public class MyAccountActivity extends AppCompatActivity {
             }
         });
 
-        // 设置导出私钥按钮点击事件
+        // 导出私钥按钮点击事件
         btnExportKeys.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,14 +117,13 @@ public class MyAccountActivity extends AppCompatActivity {
     // 退出登录方法
     private void logout() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove(KEY_USERNAME); // 移除用户名
-        editor.apply(); // 提交修改
+        editor.remove(KEY_USERNAME);
+        editor.apply();
 
-        // 返回主界面，或者根据需求返回到登录页面
-        Intent intent = new Intent(MyAccountActivity.this, MainActivity.class); // 或者改为 LoginActivity
+        Intent intent = new Intent(MyAccountActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-        finish(); // 结束当前Activity
+        finish();
     }
 
     // 显示导入私钥对话框
