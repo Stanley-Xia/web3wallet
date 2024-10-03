@@ -46,7 +46,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase(); // 获取可写的数据库实例
         ContentValues values = new ContentValues(); // 使用 ContentValues 存储要插入的值
         values.put(COLUMN_USERNAME, username); // 插入用户名
-        values.put(COLUMN_PASSWORD, password); // 插入密码
+        values.put(COLUMN_PASSWORD, password); // 插入哈希后的密码
 
         long result = db.insert(TABLE_USERS, null, values); // 执行插入操作
         return result != -1; // 返回插入结果，-1 表示插入失败
@@ -56,18 +56,18 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
     public boolean validateUser(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase(); // 获取可读的数据库实例
 
-        // 查询数据库中的密码
+        // 查询数据库中的哈希密码
         Cursor cursor = db.query(TABLE_USERS, new String[]{COLUMN_PASSWORD},
                 COLUMN_USERNAME + "=?", new String[]{username},
                 null, null, null);
 
         // 检查是否找到了匹配的用户名
         if (cursor != null && cursor.moveToFirst()) {
-            String storedPassword = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PASSWORD));
+            String storedPasswordHash = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PASSWORD));
             cursor.close(); // 关闭 Cursor 以释放资源
 
-            // 比对用户输入的密码和数据库中的密码
-            return storedPassword.equals(password); // 密码比对
+            // 使用 Bcrypt 检查密码是否匹配
+            return HashUtil.checkPassword(password, storedPasswordHash);
         }
         return false; // 如果用户名不存在或密码不匹配，返回 false
     }
@@ -76,10 +76,10 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
     public boolean updatePrivateKey(String username, String privateKey) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("private_key", privateKey);
+        values.put(COLUMN_PRIVATE_KEY, privateKey);
 
         // 更新记录
-        int result = db.update("users", values, "username=?", new String[]{username});
+        int result = db.update(TABLE_USERS, values, COLUMN_USERNAME + "=?", new String[]{username});
         return result > 0; // 返回是否更新成功
     }
 

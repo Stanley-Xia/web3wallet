@@ -42,5 +42,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'org.web3j:core:4.8.7'
+    implementation 'org.mindrot:jbcrypt:0.4'
 
 }

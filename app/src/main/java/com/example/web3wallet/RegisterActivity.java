@@ -11,11 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    // UI 元素：用户名和密码输入框、注册按钮
+    // 用户名和密码输入框、注册按钮
     private EditText editUsername, editPassword;
     private Button btnRegister;
 
-    // 数据库帮助类实例，用于操作用户数据
+    // 数据库帮助类实例
     private UserDatabaseHelper db;
 
     @Override
@@ -41,18 +41,25 @@ public class RegisterActivity extends AppCompatActivity {
 
                 // 检查用户名和密码是否为空
                 if (!username.isEmpty() && !password.isEmpty()) {
-                    // 将用户信息插入数据库，不进行加密
-                    boolean result = db.insertUser(username, password);
+                    // 对密码进行哈希加密（使用 Bcrypt）
+                    String hashedPassword = HashUtil.hashPassword(password);
 
-                    if (result) {
-                        // 注册成功，提示并跳转到登录界面
-                        Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish(); // 关闭注册界面
+                    if (hashedPassword != null) {
+                        // 将用户信息插入数据库，保存哈希后的密码
+                        boolean result = db.insertUser(username, hashedPassword);
+
+                        if (result) {
+                            // 注册成功，提示并跳转到登录界面
+                            Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish(); // 关闭注册界面
+                        } else {
+                            // 注册失败，可能用户名已存在
+                            Toast.makeText(RegisterActivity.this, "注册失败，用户名可能已存在", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        // 注册失败，可能用户名已存在
-                        Toast.makeText(RegisterActivity.this, "注册失败，用户名可能已存在", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "密码加密失败", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     // 提示用户输入完整的用户名和密码
