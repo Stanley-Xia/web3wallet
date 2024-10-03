@@ -225,4 +225,15 @@ public class TransactionActivity extends AppCompatActivity {
             }
         }).start();
     }
+
+    // 每次进入页面时都不会自动获得焦点
+    @Override
+    protected void onResume() {
+        super.onResume();
+        View rootView = findViewById(android.R.id.content);
+        if (rootView != null) {
+            rootView.clearFocus();
+        }
+    }
+
 }

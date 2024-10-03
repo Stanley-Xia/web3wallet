@@ -1,10 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:focusableInTouchMode="true">
 
     <!-- 钱包地址, 保存按钮 -->
     <LinearLayout
+        android:id="@+id/walletAddressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -48,35 +50,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/ethLogo"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="12dp"
         android:padding="14dp"
         android:text="ERC-20智能合约入口"
         android:layout_centerHorizontal="true"
         android:backgroundTint="#85BB65" />
 
-    <!-- 余额 -->
+    <!-- 显示余额 -->
     <LinearLayout
         android:id="@+id/balanceRow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_above="@id/ethLogo"
         android:gravity="center_horizontal"
-        android:layout_marginBottom="82dp">
+        android:layout_below="@+id/walletAddressBar"
+        android:layout_above="@id/authButtons"
+        android:layout_centerInParent="true">
 
         <TextView
             android:id="@+id/textBalance"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="余额: 0 ETH"
             android:textSize="18sp"
             android:padding="12dp"
             android:gravity="center"/>
-
-        <Space
-            android:layout_width="16dp"
-            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <!-- 按钮 (设置接口, 我的账号) -->
