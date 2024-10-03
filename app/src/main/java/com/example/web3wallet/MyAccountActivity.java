@@ -3,13 +3,13 @@ package com.example.web3wallet;
 import android.content.ClipboardManager;
 import android.content.ClipData;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.view.View;
-import android.content.Intent;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -18,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MyAccountActivity extends AppCompatActivity {
 
     private TextView tvAccountName;
-    private Button btnLogin, btnRegister, btnBack, btnLogout, btnImportKeys, btnExportKeys;
+    private Button btnLogin, btnRegister, btnBack, btnLogout, btnImportKeys, btnExportKeys, btnMoreFeatures;
 
     private SharedPreferences sharedPreferences;
     private UserDatabaseHelper userDatabaseHelper;
@@ -31,6 +31,7 @@ public class MyAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_account);
 
+        // 初始化
         tvAccountName = findViewById(R.id.tv_account_name);
         btnLogin = findViewById(R.id.btnLogin);
         btnRegister = findViewById(R.id.btnRegister);
@@ -38,6 +39,7 @@ public class MyAccountActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.btnLogout);
         btnImportKeys = findViewById(R.id.btnImportKeys);
         btnExportKeys = findViewById(R.id.btnExportKeys);
+        btnMoreFeatures = findViewById(R.id.btnMoreFeatures);
 
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         userDatabaseHelper = new UserDatabaseHelper(this);
@@ -94,6 +96,15 @@ public class MyAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 exportPrivateKey(); // 调用方法导出私钥
+            }
+        });
+
+        // 更多功能按钮点击事件
+        btnMoreFeatures.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyAccountActivity.this, MoreFeaturesActivity.class);
+                startActivity(intent);
             }
         });
     }
