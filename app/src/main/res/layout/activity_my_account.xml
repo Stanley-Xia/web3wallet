@@ -1,19 +1,21 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp">
 
+    <!-- 用户名, 登录, 注册 -->
     <LinearLayout
+        android:id="@+id/top_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/black_border_background"
         android:backgroundTint="#87CEEB"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        android:layout_gravity="top">
-
-        <!-- 用户名显示 -->
         <TextView
             android:id="@+id/tv_account_name"
             android:layout_width="match_parent"
@@ -33,7 +35,6 @@
             android:orientation="horizontal"
             android:gravity="center">
 
-            <!-- 登录按钮 -->
             <Button
                 android:id="@+id/btnLogin"
                 android:layout_width="0dp"
@@ -46,7 +47,6 @@
                 android:layout_marginEnd="-4dp"
                 android:background="@android:drawable/editbox_background"/>
 
-            <!-- 注册按钮 -->
             <Button
                 android:id="@+id/btnRegister"
                 android:layout_width="0dp"
@@ -60,70 +60,77 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- 提示信息 -->
+    <!-- 提示 -->
     <LinearLayout
-        android:layout_width="320dp"
-        android:layout_height="108dp"
+        android:id="@+id/center_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="@drawable/rounded_background"
-        android:layout_marginTop="128dp"
         android:gravity="center"
-        android:layout_gravity="center">
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@id/top_section"
+        app:layout_constraintBottom_toTopOf="@id/bottom_section"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="0.5">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="导出私钥注意风险，请妥善保管私钥\n Be aware of the risks when\n exporting private keys. Please keep\n your private keys safe."
+            android:text="导出私钥需注意风险，请妥善保管私钥。\nBe aware of the risks when exporting private keys. Please keep your private keys safe."
             android:textSize="16sp"
             android:textColor="#FFA500"
             android:gravity="center"
             android:padding="12dp"/>
     </LinearLayout>
 
+    <!-- 按钮 (退出登录, 导入私钥, 导出私钥, 更多, 返回) -->
     <LinearLayout
+        android:id="@+id/bottom_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center">
 
-        <!-- 退出登录按钮 -->
         <Button
             android:id="@+id/btnLogout"
-            android:layout_width="330dp"
-            android:layout_height="55dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="退出登录"
             android:backgroundTint="#85BB65"
-            android:layout_marginTop="32dp"
+            android:layout_marginBottom="8dp"
             android:padding="12dp"/>
 
-        <!-- 导入私钥按钮 -->
         <Button
             android:id="@+id/btnImportKeys"
-            android:layout_width="330dp"
-            android:layout_height="55dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="导入私钥"
             android:backgroundTint="#85BB65"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:padding="12dp"/>
 
-        <!-- 导出私钥按钮 -->
         <Button
             android:id="@+id/btnExportKeys"
-            android:layout_width="330dp"
-            android:layout_height="55dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="导出私钥"
             android:backgroundTint="#85BB65"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:padding="12dp"/>
 
         <LinearLayout
-            android:layout_width="330dp"
-            android:layout_height="55dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="8dp">
+            android:gravity="center">
 
-            <!-- 更多按钮 -->
             <Button
                 android:id="@+id/btnMoreFeatures"
                 android:layout_width="0dp"
@@ -133,7 +140,6 @@
                 android:padding="12dp"
                 android:layout_marginEnd="12dp"/>
 
-            <!-- 返回按钮 -->
             <Button
                 android:id="@+id/btnBack"
                 android:layout_width="0dp"
@@ -144,4 +150,4 @@
         </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -13,7 +13,7 @@
         android:background="@drawable/black_border_background"
         android:layout_marginBottom="16dp">
 
-        <!-- 收款地址输入框 -->
+        <!-- 收款地址 -->
         <EditText
             android:id="@+id/editReceiverAddress"
             android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             android:background="@android:drawable/editbox_background"
             android:layout_marginBottom="-4dp"/>
 
-        <!-- 金额输入框 -->
+        <!-- 金额 -->
         <EditText
             android:id="@+id/editAmount"
             android:layout_width="match_parent"
@@ -53,14 +53,13 @@
 
     </LinearLayout>
 
-    <!-- transaction logo -->
+    <!-- 交易图标 -->
     <ImageView
         android:id="@+id/logoImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/transactionlogo"
-        android:background="@drawable/circle_border"
+        android:src="@drawable/exchangelogo"
         android:layout_marginTop="80dp"/>
 
     <View
@@ -69,7 +68,9 @@
         android:layout_weight="1"/>
 
     <LinearLayout
-        android:layout_width="360dp"
+        android:layout_width="match_parent"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         android:layout_gravity="center"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
