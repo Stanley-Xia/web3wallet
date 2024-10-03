@@ -32,7 +32,7 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(createTable);
     }
 
-    // 更新数据库表结构（例如当数据库版本更新时调用）
+    // 更新数据库表结构，当数据库版本更新时调用
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 2) {
@@ -112,4 +112,11 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         }
         return null; // 如果没有找到私钥，返回 null
     }
+
+    // 在 UserDatabaseHelper 类中添加 getPrivateKeyCursor 方法
+    public Cursor getPrivateKeyCursor(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        return db.query(TABLE_USERS, new String[]{COLUMN_PRIVATE_KEY}, COLUMN_USERNAME + "=?", new String[]{username}, null, null, null);
+    }
+
 }

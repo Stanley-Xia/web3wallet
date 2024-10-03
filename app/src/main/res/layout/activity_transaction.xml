@@ -22,7 +22,7 @@
             android:inputType="text"
             android:padding="12dp"
             android:background="@drawable/blue_border_background"
-            android:layout_marginBottom="-4dp"/>
+            android:layout_marginBottom="-3dp"/>
 
         <!-- 金额 -->
         <EditText
@@ -33,7 +33,7 @@
             android:inputType="numberDecimal"
             android:padding="12dp"
             android:background="@drawable/blue_border_background"
-            android:layout_marginBottom="-4dp"/>
+            android:layout_marginBottom="-3dp"/>
 
         <!-- 历史记录按钮 -->
         <LinearLayout

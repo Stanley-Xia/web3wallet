@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <!-- 智能合约按钮 -->
+    <Button
+        android:id="@+id/btnSmartContract"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="我想部署智能合约"
+        android:layout_marginBottom="16dp" />
+
+    <!-- 创建钱包地址按钮 -->
+    <Button
+        android:id="@+id/btnCreateWallet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="我想创建钱包地址" />
+
+</LinearLayout>

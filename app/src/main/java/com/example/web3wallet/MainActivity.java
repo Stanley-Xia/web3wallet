@@ -31,7 +31,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
     private EditText editWalletAddress;
-    private Button btnCheckBalance, btnGoToApiKey, btnTransfer, btnSmartContract, btnMyAccount, btnQueryTokens, btnSaveAddress;
+    private Button btnCheckBalance, btnGoToApiKey, btnTransfer, btnBlockchain, btnMyAccount, btnQueryTokens, btnSaveAddress;
     private ImageView ethLogo;
     private TextView textBalance;
 
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         btnCheckBalance = findViewById(R.id.btnCheckBalance);
         btnGoToApiKey = findViewById(R.id.btnGoToApiKey);
         btnTransfer = findViewById(R.id.btnTransfer);
-        btnSmartContract = findViewById(R.id.btnSmartContract);
+        btnBlockchain = findViewById(R.id.btnBlockchain);
         btnMyAccount = findViewById(R.id.btnMyAccount);
         btnQueryTokens = findViewById(R.id.btnQueryTokens);
         btnSaveAddress = findViewById(R.id.btnSaveAddress);
@@ -86,11 +86,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // ERC-20智能合约入口按钮点击事件
-        btnSmartContract.setOnClickListener(new View.OnClickListener() {
+        // Ethereum Main Network 按钮点击事件
+        btnBlockchain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SmartContractActivity.class);
+                Intent intent = new Intent(MainActivity.this, BlockchainActivity.class);
                 startActivity(intent);
             }
         });
@@ -133,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
                         saveWalletAddressForUser(username, walletAddress);
                         Toast.makeText(MainActivity.this, "地址已保存", Toast.LENGTH_SHORT).show();
 
-                        // 清除焦点及隐藏键盘
                         editWalletAddress.clearFocus();
                         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                         if (imm != null) {
@@ -244,5 +243,9 @@ public class MainActivity extends AppCompatActivity {
         if (rootView != null) {
             rootView.clearFocus();
         }
+
+        // 重新加载保存的钱包地址
+        loadSavedWalletAddress();
     }
+
 }

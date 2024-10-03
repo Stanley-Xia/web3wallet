@@ -32,7 +32,7 @@
             android:layout_weight="1"
             android:text="保存"
             android:padding="12dp"
-            android:layout_marginLeft="-4dp"
+            android:layout_marginLeft="-3dp"
             android:background="@android:drawable/editbox_background"/>
     </LinearLayout>
 
@@ -46,13 +46,13 @@
 
     <!-- 智能合约按钮 -->
     <Button
-        android:id="@+id/btnSmartContract"
+        android:id="@+id/btnBlockchain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/ethLogo"
         android:layout_marginTop="12dp"
         android:padding="14dp"
-        android:text="ERC-20智能合约入口"
+        android:text="Ethereum Main Network"
         android:layout_centerHorizontal="true"
         android:backgroundTint="#85BB65" />
 
