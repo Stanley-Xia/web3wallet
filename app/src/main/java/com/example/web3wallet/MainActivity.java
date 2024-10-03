@@ -1,10 +1,12 @@
 package com.example.web3wallet;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -130,6 +132,13 @@ public class MainActivity extends AppCompatActivity {
                     if (username != null) {
                         saveWalletAddressForUser(username, walletAddress);
                         Toast.makeText(MainActivity.this, "地址已保存", Toast.LENGTH_SHORT).show();
+
+                        // 清除焦点及隐藏键盘
+                        editWalletAddress.clearFocus();
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        if (imm != null) {
+                            imm.hideSoftInputFromWindow(editWalletAddress.getWindowToken(), 0);
+                        }
                     }
                 } else {
                     Toast.makeText(MainActivity.this, "请输入有效的钱包地址", Toast.LENGTH_SHORT).show();

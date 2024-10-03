@@ -8,9 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-
         android:backgroundTint="#87CEEB"
-        android:background="@drawable/black_border_background"
+        android:background="@drawable/blue_border_background"
         android:layout_marginBottom="16dp">
 
         <!-- 收款地址 -->
@@ -21,7 +20,7 @@
             android:hint="收款地址"
             android:inputType="text"
             android:padding="12dp"
-            android:background="@android:drawable/editbox_background"
+            android:background="@drawable/blue_border_background"
             android:layout_marginBottom="-4dp"/>
 
         <!-- 金额 -->
@@ -32,7 +31,7 @@
             android:hint="金额 (ETH)"
             android:inputType="numberDecimal"
             android:padding="12dp"
-            android:background="@android:drawable/editbox_background"
+            android:background="@drawable/blue_border_background"
             android:layout_marginBottom="-4dp"/>
 
         <!-- 历史记录按钮 -->

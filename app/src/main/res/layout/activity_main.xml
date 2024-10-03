@@ -11,7 +11,7 @@
         android:layout_marginBottom="16dp"
         android:layout_alignParentTop="true"
         android:backgroundTint="#87CEEB"
-        android:background="@drawable/black_border_background">
+        android:background="@drawable/blue_border_background">
 
         <EditText
             android:id="@+id/editWalletAddress"
@@ -21,7 +21,7 @@
             android:hint="输入钱包地址"
             android:inputType="text"
             android:padding="12dp"
-            android:background="@android:drawable/editbox_background"/>
+            android:background="@drawable/blue_border_background"/>
 
         <Button
             android:id="@+id/btnSaveAddress"
@@ -30,7 +30,7 @@
             android:layout_weight="1"
             android:text="保存"
             android:padding="12dp"
-            android:layout_marginLeft="-3dp"
+            android:layout_marginLeft="-4dp"
             android:background="@android:drawable/editbox_background"/>
     </LinearLayout>
 

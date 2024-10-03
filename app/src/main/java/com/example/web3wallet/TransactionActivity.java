@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -53,11 +54,11 @@ public class TransactionActivity extends AppCompatActivity {
 
         // 从 SharedPreferences 加载 Alchemy API URL
         SharedPreferences sharedPreferences = getSharedPreferences("WalletPrefs", MODE_PRIVATE);
-        alchemyUrl = sharedPreferences.getString("alchemyapi", null);  // 从 SharedPreferences 读取 alchemyapi
+        alchemyUrl = sharedPreferences.getString("alchemyapi", null);
 
         if (alchemyUrl == null || alchemyUrl.isEmpty()) {
             Toast.makeText(this, "Alchemy API 未设置", Toast.LENGTH_SHORT).show();
-            return; // 如果 API Key 未设置，直接返回
+            return;
         }
 
         // 发送按钮点击事件
@@ -77,6 +78,14 @@ public class TransactionActivity extends AppCompatActivity {
                         if (privateKey != null) {
                             // 调用发送交易的方法
                             sendTransaction(privateKey, receiverAddress, amount);
+
+                            // 清除焦点和隐藏键盘
+                            editReceiverAddress.clearFocus();
+                            editAmount.clearFocus();
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                            if (imm != null) {
+                                imm.hideSoftInputFromWindow(editReceiverAddress.getWindowToken(), 0);
+                            }
                         } else {
                             Toast.makeText(TransactionActivity.this, "私钥未设置", Toast.LENGTH_SHORT).show();
                         }
@@ -109,6 +118,14 @@ public class TransactionActivity extends AppCompatActivity {
 
                         // 提示用户地址已复制
                         Toast.makeText(TransactionActivity.this, "钱包地址已复制到剪贴板", Toast.LENGTH_SHORT).show();
+
+                        // 清除焦点和隐藏键盘
+                        editReceiverAddress.clearFocus();
+                        editAmount.clearFocus();
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        if (imm != null) {
+                            imm.hideSoftInputFromWindow(editReceiverAddress.getWindowToken(), 0);
+                        }
                     } else {
                         // 提示用户钱包地址未设置
                         Toast.makeText(TransactionActivity.this, "钱包地址未设置", Toast.LENGTH_SHORT).show();
@@ -132,6 +149,14 @@ public class TransactionActivity extends AppCompatActivity {
                         Intent intent = new Intent(TransactionActivity.this, TransactionHistoryActivity.class);
                         intent.putExtra("walletAddress", walletAddress);
                         startActivity(intent);
+
+                        // 清除焦点和隐藏键盘
+                        editReceiverAddress.clearFocus();
+                        editAmount.clearFocus();
+                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                        if (imm != null) {
+                            imm.hideSoftInputFromWindow(editReceiverAddress.getWindowToken(), 0);
+                        }
                     } else {
                         Toast.makeText(TransactionActivity.this, "未找到钱包地址", Toast.LENGTH_SHORT).show();
                     }
