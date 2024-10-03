@@ -72,28 +72,43 @@ public class UserDatabaseHelper extends SQLiteOpenHelper {
         return false; // 如果用户名不存在或密码不匹配，返回 false
     }
 
-    // 更新私钥信息
-    public boolean updatePrivateKey(String username, String privateKey) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_PRIVATE_KEY, privateKey);
+    // 更新私钥信息，加密后存储
+    public boolean updatePrivateKey(String username, String privateKey, String password) {
+        try {
+            // 使用用户密码加密私钥
+            String encryptedPrivateKey = EncryptionUtil.encrypt(privateKey, password);
 
-        // 更新记录
-        int result = db.update(TABLE_USERS, values, COLUMN_USERNAME + "=?", new String[]{username});
-        return result > 0; // 返回是否更新成功
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_PRIVATE_KEY, encryptedPrivateKey); // 存储加密后的私钥
+
+            // 更新记录
+            int result = db.update(TABLE_USERS, values, COLUMN_USERNAME + "=?", new String[]{username});
+            return result > 0; // 返回是否更新成功
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    // 获取用户的私钥
-    public String getPrivateKey(String username) {
+    // 获取并解密用户的私钥
+    public String getPrivateKey(String username, String password) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_USERS, new String[]{COLUMN_PRIVATE_KEY},
                 COLUMN_USERNAME + "=?", new String[]{username},
                 null, null, null);
 
         if (cursor != null && cursor.moveToFirst()) {
-            String privateKey = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PRIVATE_KEY));
+            String encryptedPrivateKey = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_PRIVATE_KEY));
             cursor.close(); // 关闭 Cursor 以释放资源
-            return privateKey; // 返回私钥
+
+            // 解密私钥
+            try {
+                return EncryptionUtil.decrypt(encryptedPrivateKey, password);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null; // 如果解密失败，返回 null
+            }
         }
         return null; // 如果没有找到私钥，返回 null
     }

@@ -70,17 +70,6 @@ public class MyAccountActivity extends AppCompatActivity {
             }
         });
 
-        // 更多按钮点击事件
-        Button btnMoreFeatures = findViewById(R.id.btnMoreFeatures);
-
-        btnMoreFeatures.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyAccountActivity.this, MoreFeaturesActivity.class);
-                startActivity(intent);
-            }
-        });
-
         // 返回按钮点击事件
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +129,7 @@ public class MyAccountActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String privateKey = input.getText().toString(); // 获取用户输入的私钥
                 if (!privateKey.isEmpty()) {
-                    savePrivateKey(privateKey); // 保存私钥到数据库
+                    showPasswordDialogAndSaveKey(privateKey); // 调用方法让用户输入密码并加密保存私钥
                 }
             }
         });
@@ -155,15 +144,44 @@ public class MyAccountActivity extends AppCompatActivity {
         builder.show(); // 显示对话框
     }
 
-    // 将私钥保存到数据库
-    private void savePrivateKey(String privateKey) {
+    // 显示密码输入框，并保存加密后的私钥
+    private void showPasswordDialogAndSaveKey(final String privateKey) {
+        AlertDialog.Builder passwordDialog = new AlertDialog.Builder(this);
+        passwordDialog.setTitle("输入密码加密私钥");
+
+        final EditText passwordInput = new EditText(this); // 创建密码输入框
+        passwordInput.setHint("请输入密码");
+        passwordDialog.setView(passwordInput);
+
+        passwordDialog.setPositiveButton("保存", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String password = passwordInput.getText().toString();
+                if (!password.isEmpty()) {
+                    savePrivateKey(privateKey, password); // 使用密码加密私钥并保存
+                }
+            }
+        });
+
+        passwordDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        passwordDialog.show(); // 显示密码输入对话框
+    }
+
+    // 将加密后的私钥保存到数据库
+    private void savePrivateKey(String privateKey, String password) {
         String username = sharedPreferences.getString(KEY_USERNAME, null); // 获取当前用户名
         if (username != null) {
-            boolean isUpdated = userDatabaseHelper.updatePrivateKey(username, privateKey); // 使用正确的方法更新私钥
+            boolean isUpdated = userDatabaseHelper.updatePrivateKey(username, privateKey, password); // 使用加密方法更新私钥
             if (isUpdated) {
-                // 私钥保存成功
+                Toast.makeText(MyAccountActivity.this, "私钥已成功保存", Toast.LENGTH_SHORT).show();
             } else {
-                // 保存失败
+                Toast.makeText(MyAccountActivity.this, "私钥保存失败", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -172,19 +190,49 @@ public class MyAccountActivity extends AppCompatActivity {
     private void exportPrivateKey() {
         String username = sharedPreferences.getString(KEY_USERNAME, null); // 获取当前用户名
         if (username != null) {
-            String privateKey = userDatabaseHelper.getPrivateKey(username); // 获取私钥
-            if (privateKey != null) {
-                // 复制私钥到剪贴板
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Private Key", privateKey);
-                clipboard.setPrimaryClip(clip);
-
-                // 提示用户已复制
-                Toast.makeText(MyAccountActivity.this, "私钥已复制到剪贴板", Toast.LENGTH_SHORT).show();
-            } else {
-                // 提示用户私钥不存在
-                Toast.makeText(MyAccountActivity.this, "无法找到私钥", Toast.LENGTH_SHORT).show();
-            }
+            showPasswordDialogAndExportKey(username);
         }
+    }
+
+    // 显示密码输入框并导出解密后的私钥
+    private void showPasswordDialogAndExportKey(final String username) {
+        AlertDialog.Builder passwordDialog = new AlertDialog.Builder(this);
+        passwordDialog.setTitle("输入密码解密私钥");
+
+        final EditText passwordInput = new EditText(this); // 创建密码输入框
+        passwordInput.setHint("请输入密码");
+        passwordDialog.setView(passwordInput);
+
+        passwordDialog.setPositiveButton("导出", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String password = passwordInput.getText().toString();
+                if (!password.isEmpty()) {
+                    String privateKey = userDatabaseHelper.getPrivateKey(username, password); // 使用密码解密私钥
+                    if (privateKey != null) {
+                        copyToClipboard(privateKey);
+                        Toast.makeText(MyAccountActivity.this, "私钥已复制到剪贴板", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(MyAccountActivity.this, "私钥解密失败", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+
+        passwordDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        passwordDialog.show(); // 显示密码输入对话框
+    }
+
+    // 将私钥复制到剪贴板
+    private void copyToClipboard(String privateKey) {
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("Private Key", privateKey);
+        clipboard.setPrimaryClip(clip);
     }
 }

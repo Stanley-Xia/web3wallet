@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.web3j.crypto.Credentials;
@@ -74,21 +75,8 @@ public class TransactionActivity extends AppCompatActivity {
                     // 从数据库中获取用户的私钥
                     String username = sharedPreferences.getString("username", null);
                     if (username != null) {
-                        String privateKey = databaseHelper.getPrivateKey(username);
-                        if (privateKey != null) {
-                            // 调用发送交易的方法
-                            sendTransaction(privateKey, receiverAddress, amount);
-
-                            // 清除焦点和隐藏键盘
-                            editReceiverAddress.clearFocus();
-                            editAmount.clearFocus();
-                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                            if (imm != null) {
-                                imm.hideSoftInputFromWindow(editReceiverAddress.getWindowToken(), 0);
-                            }
-                        } else {
-                            Toast.makeText(TransactionActivity.this, "私钥未设置", Toast.LENGTH_SHORT).show();
-                        }
+                        // 弹出密码输入框，获取用户密码以解密私钥
+                        showPasswordDialogAndSendTransaction(username, receiverAddress, amount);
                     } else {
                         Toast.makeText(TransactionActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
                     }
@@ -166,6 +154,41 @@ public class TransactionActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    // 弹出密码输入框，获取用户密码并解密私钥，发送交易
+    private void showPasswordDialogAndSendTransaction(final String username, final String receiverAddress, final String amount) {
+        AlertDialog.Builder passwordDialog = new AlertDialog.Builder(this);
+        passwordDialog.setTitle("输入密码解密私钥");
+
+        final EditText passwordInput = new EditText(this);
+        passwordInput.setHint("请输入密码");
+        passwordDialog.setView(passwordInput);
+
+        passwordDialog.setPositiveButton("发送交易", (dialog, which) -> {
+            String password = passwordInput.getText().toString();
+            if (!password.isEmpty()) {
+                // 解密私钥
+                String privateKey = databaseHelper.getPrivateKey(username, password);
+                if (privateKey != null) {
+                    // 调用发送交易的方法
+                    sendTransaction(privateKey, receiverAddress, amount);
+
+                    // 清除焦点和隐藏键盘
+                    editReceiverAddress.clearFocus();
+                    editAmount.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(editReceiverAddress.getWindowToken(), 0);
+                    }
+                } else {
+                    Toast.makeText(TransactionActivity.this, "私钥解密失败", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        passwordDialog.setNegativeButton("取消", (dialog, which) -> dialog.cancel());
+        passwordDialog.show(); // 显示密码输入框
     }
 
     // 发送交易的方法
