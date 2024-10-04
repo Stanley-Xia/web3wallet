@@ -45,16 +45,42 @@
         android:src="@drawable/ethlogo"/>
 
     <!-- 区块链按钮 -->
-    <Button
+    <FrameLayout
         android:id="@+id/btnBlockchain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/ethLogo"
         android:layout_marginTop="12dp"
         android:padding="14dp"
-        android:text="Ethereum Main Network"
         android:layout_centerHorizontal="true"
-        android:backgroundTint="#85BB65" />
+        android:background="@drawable/button_blockchain">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:id="@+id/ivEthereumIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_ethereum"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="4dp" />
+
+            <TextView
+                android:id="@+id/tvEthereumNetwork"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ethereum Main Network"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="#FFFFFF"
+                android:gravity="center_vertical" />
+        </LinearLayout>
+
+    </FrameLayout>
 
     <!-- 显示余额 -->
     <LinearLayout
@@ -64,8 +90,7 @@
         android:orientation="horizontal"
         android:gravity="center_horizontal"
         android:layout_below="@+id/walletAddressBar"
-        android:layout_above="@id/authButtons"
-        android:layout_centerInParent="true">
+        android:layout_marginTop="6dp">
 
         <TextView
             android:id="@+id/textBalance"
@@ -77,33 +102,69 @@
             android:gravity="center"/>
     </LinearLayout>
 
-    <!-- 按钮 (设置接口, 我的账号) -->
+
+
+
+
+    <!-- 接口设置，我的账号 -->
     <LinearLayout
         android:id="@+id/authButtons"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="52dp"
+        android:paddingHorizontal="36dp"
         android:orientation="horizontal"
-        android:layout_above="@id/ethLogo"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="12dp">
+        android:layout_below="@+id/walletAddressBar"
+        android:layout_marginTop="72dp"
+        android:gravity="center_horizontal">
 
-        <Button
+        <ImageView
             android:id="@+id/btnGoToApiKey"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="设置接口"
-            android:padding="14dp"
-            android:layout_marginEnd="48dp"/>
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_setting"
+            android:contentDescription="API Settings"
+            android:layout_marginEnd="32dp"/>
 
-        <Button
+        <FrameLayout
             android:id="@+id/btnMyAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我的账号"
-            android:padding="14dp"/>
+            android:padding="14dp"
+            android:background="@drawable/button_blockchain">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ivAccountIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="4dp"
+                    android:src="@drawable/ic_account"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/tvAccount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="My Account"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:gravity="center"/>
+            </LinearLayout>
+        </FrameLayout>
     </LinearLayout>
 
-    <!-- 按钮 (查询代币, 交易, 查询余额) -->
+
+
+
+
+
+
+    <!-- 查询代币，交易，查询余额 -->
     <LinearLayout
         android:id="@+id/bottomButtons"
         android:layout_width="match_parent"
@@ -118,16 +179,19 @@
 
         <Button
             android:id="@+id/btnQueryTokens"
+            android:backgroundTint="#C3B091"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="54dp"
+            android:foregroundGravity="center"
+            android:foreground="@drawable/ic_token_detail"
             android:layout_marginStart="8dp"
-            android:text="查询代币"
-            android:padding="6dp"
-            android:layout_marginEnd="32dp"/>
+            android:layout_marginEnd="32dp"
+            android:contentDescription="Token Button"/>
 
         <Button
             android:id="@+id/btnTransfer"
+            android:backgroundTint="#C3B091"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="54dp"
@@ -138,12 +202,14 @@
 
         <Button
             android:id="@+id/btnCheckBalance"
+            android:backgroundTint="#C3B091"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="54dp"
+            android:foregroundGravity="center"
+            android:foreground="@drawable/ic_check_balance"
             android:layout_marginEnd="8dp"
-            android:text="查询余额"
-            android:padding="6dp"/>
+            android:contentDescription="Balance Button"/>
     </LinearLayout>
 
 </RelativeLayout>

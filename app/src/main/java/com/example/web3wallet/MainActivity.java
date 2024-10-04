@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,8 +32,9 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
     private EditText editWalletAddress;
-    private Button btnCheckBalance, btnGoToApiKey, btnTransfer, btnBlockchain, btnMyAccount, btnQueryTokens, btnSaveAddress;
-    private ImageView ethLogo;
+    private Button btnCheckBalance, btnTransfer, btnQueryTokens, btnSaveAddress;
+    private FrameLayout btnBlockchain, btnMyAccount;
+    private ImageView ethLogo, btnGoToApiKey;
     private TextView textBalance;
 
     private SharedPreferences sharedPreferences;
