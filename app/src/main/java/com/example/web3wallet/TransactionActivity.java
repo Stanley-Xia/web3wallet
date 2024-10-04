@@ -226,7 +226,7 @@ public class TransactionActivity extends AppCompatActivity {
         }).start();
     }
 
-    // 每次进入页面时都不会自动获得焦点
+    // 进入页面时不会自动获得焦点
     @Override
     protected void onResume() {
         super.onResume();

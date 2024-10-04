@@ -20,7 +20,7 @@ public class MyAccountActivity extends AppCompatActivity {
 
     private TextView tvAccountName;
     private Button btnLogin, btnRegister;
-    private ImageView ivLogout, ivMoreFeatures, ivHome, ivImportKeys, ivExportKeys;
+    private ImageView ivLogout, ivMoreFeatures, ivHome, ivImportKeys, ivExportKeys, ivSwitchUser;
 
     private SharedPreferences sharedPreferences;
     private UserDatabaseHelper userDatabaseHelper;
@@ -42,6 +42,7 @@ public class MyAccountActivity extends AppCompatActivity {
         ivImportKeys = findViewById(R.id.ivImportKeys);
         ivExportKeys = findViewById(R.id.ivExportKeys);
         ivMoreFeatures = findViewById(R.id.ivMoreFeatures);
+        ivSwitchUser = findViewById(R.id.ivSwitchUser);
 
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         userDatabaseHelper = new UserDatabaseHelper(this);
@@ -66,25 +67,6 @@ public class MyAccountActivity extends AppCompatActivity {
             }
         });
 
-        // 退出登录图标点击事件
-        ivLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });
-
-        // 返回按钮点击事件
-        ivHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MyAccountActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish(); // 结束当前Activity
-            }
-        });
-
         // 导入私钥按钮点击事件
         ivImportKeys.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,12 +83,53 @@ public class MyAccountActivity extends AppCompatActivity {
             }
         });
 
-        // 更多功能按钮点击事件
+        // 切换账号按钮点击事件
+        ivSwitchUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 清除登录状态
+                SharedPreferences sharedPreferences = getSharedPreferences("WalletPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove("username");
+                editor.remove("wallet_address");
+                editor.apply();
+
+                // 提示用户已退出
+                Toast.makeText(MyAccountActivity.this, "已退出登录", Toast.LENGTH_SHORT).show();
+
+                // 跳转到登录页面
+                Intent intent = new Intent(MyAccountActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // 清除所有活动栈
+                startActivity(intent);
+                finish(); // 结束当前活动
+            }
+        });
+
+        // 更多功能图标点击事件
         ivMoreFeatures.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MyAccountActivity.this, MoreFeaturesActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        // 返回主页按图标击事件
+        ivHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyAccountActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish(); // 结束当前Activity
+            }
+        });
+
+        // 退出登录图标点击事件
+        ivLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
             }
         });
     }
@@ -252,4 +275,15 @@ public class MyAccountActivity extends AppCompatActivity {
         ClipData clip = ClipData.newPlainText("Private Key", privateKey);
         clipboard.setPrimaryClip(clip);
     }
+
+    // 每次进入页面时都不会自动获得焦点
+    @Override
+    protected void onResume() {
+        super.onResume();
+        View rootView = findViewById(android.R.id.content);
+        if (rootView != null) {
+            rootView.clearFocus();
+        }
+    }
+
 }

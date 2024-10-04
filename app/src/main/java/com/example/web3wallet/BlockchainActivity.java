@@ -11,14 +11,17 @@ import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+
 import android.widget.EditText;
 import android.widget.Toast;
 
 public class BlockchainActivity extends AppCompatActivity {
 
-    private Button btnSmartContract;
-    private Button btnCreateWallet;
-
+    private CardView cardSmartContract;
+    private CardView cardCreateWallet;
+    private CardView cardRecoverWallet;
+    private CardView cardNFT;
     private static final String PREFS_NAME = "WalletPrefs";
     private static final String KEY_USERNAME = "username";
     private static final String KEY_WALLET_ADDRESS_SUFFIX = "_walletAddress";
@@ -28,12 +31,14 @@ public class BlockchainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blockchain);
 
-        // 初始化按钮
-        btnSmartContract = findViewById(R.id.btnSmartContract);
-        btnCreateWallet = findViewById(R.id.btnCreateWallet);
+        // 初始化卡片
+        cardSmartContract = findViewById(R.id.cardSmartContract);
+        cardCreateWallet = findViewById(R.id.cardCreateWallet);
+        cardRecoverWallet = findViewById(R.id.cardRecoverWallet);
+        cardNFT = findViewById(R.id.cardNFT);
 
-        // 智能合约按钮点击事件
-        btnSmartContract.setOnClickListener(new View.OnClickListener() {
+        // 智能合约卡片点击事件
+        cardSmartContract.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -47,8 +52,8 @@ public class BlockchainActivity extends AppCompatActivity {
             }
         });
 
-        // 创建钱包按钮点击事件
-        btnCreateWallet.setOnClickListener(new View.OnClickListener() {
+        // 创建钱包卡片点击事件
+        cardCreateWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

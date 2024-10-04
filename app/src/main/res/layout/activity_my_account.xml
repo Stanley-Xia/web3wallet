@@ -2,7 +2,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:focusableInTouchMode="true">
 
     <!-- 顶层元素 -->
     <LinearLayout
@@ -194,7 +195,7 @@
 
         </FrameLayout>
 
-        <!-- 恢复钱包按钮 -->
+        <!-- 切换账户按钮 -->
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="64dp"
@@ -202,7 +203,7 @@
             android:layout_columnWeight="1">
 
             <ImageView
-                android:id="@+id/ivRecoverWallet"
+                android:id="@+id/ivSwitchUser"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/button_account_background_3"
@@ -217,11 +218,11 @@
                 android:gravity="start">
 
                 <ImageView
-                    android:id="@+id/ivRecoverIcon"
+                    android:id="@+id/ivSwitchIcon"
                     android:layout_width="24dp"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_recover"
+                    android:src="@drawable/ic_switch_account"
                     android:layout_gravity="start"
                     android:layout_marginStart="8dp"/>
 
@@ -230,7 +231,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:text="Recover Wallet"
+                    android:text="Switch User"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
                     android:textSize="16sp"
@@ -277,7 +278,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:text="Need Help?"
+                    android:text="Need Help"
                     android:textColor="@android:color/white"
                     android:textStyle="bold"
                     android:textSize="16sp"
