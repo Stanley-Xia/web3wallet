@@ -44,7 +44,7 @@
         android:layout_centerInParent="true"
         android:src="@drawable/ethlogo"/>
 
-    <!-- 智能合约按钮 -->
+    <!-- 区块链按钮 -->
     <Button
         android:id="@+id/btnBlockchain"
         android:layout_width="wrap_content"

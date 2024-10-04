@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
 import android.widget.Toast;
@@ -18,7 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MyAccountActivity extends AppCompatActivity {
 
     private TextView tvAccountName;
-    private Button btnLogin, btnRegister, btnBack, btnLogout, btnImportKeys, btnExportKeys, btnMoreFeatures;
+    private Button btnLogin, btnRegister;
+    private ImageView ivLogout, ivMoreFeatures, ivHome, ivImportKeys, ivExportKeys;
 
     private SharedPreferences sharedPreferences;
     private UserDatabaseHelper userDatabaseHelper;
@@ -35,11 +37,11 @@ public class MyAccountActivity extends AppCompatActivity {
         tvAccountName = findViewById(R.id.tv_account_name);
         btnLogin = findViewById(R.id.btnLogin);
         btnRegister = findViewById(R.id.btnRegister);
-        btnBack = findViewById(R.id.btnBack);
-        btnLogout = findViewById(R.id.btnLogout);
-        btnImportKeys = findViewById(R.id.btnImportKeys);
-        btnExportKeys = findViewById(R.id.btnExportKeys);
-        btnMoreFeatures = findViewById(R.id.btnMoreFeatures);
+        ivHome = findViewById(R.id.ivHome);
+        ivLogout = findViewById(R.id.ivLogout);
+        ivImportKeys = findViewById(R.id.ivImportKeys);
+        ivExportKeys = findViewById(R.id.ivExportKeys);
+        ivMoreFeatures = findViewById(R.id.ivMoreFeatures);
 
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         userDatabaseHelper = new UserDatabaseHelper(this);
@@ -64,8 +66,8 @@ public class MyAccountActivity extends AppCompatActivity {
             }
         });
 
-        // 退出登录按钮点击事件
-        btnLogout.setOnClickListener(new View.OnClickListener() {
+        // 退出登录图标点击事件
+        ivLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 logout();
@@ -73,7 +75,7 @@ public class MyAccountActivity extends AppCompatActivity {
         });
 
         // 返回按钮点击事件
-        btnBack.setOnClickListener(new View.OnClickListener() {
+        ivHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MyAccountActivity.this, MainActivity.class);
@@ -84,7 +86,7 @@ public class MyAccountActivity extends AppCompatActivity {
         });
 
         // 导入私钥按钮点击事件
-        btnImportKeys.setOnClickListener(new View.OnClickListener() {
+        ivImportKeys.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showImportKeyDialog(); // 调用方法显示导入私钥对话框
@@ -92,7 +94,7 @@ public class MyAccountActivity extends AppCompatActivity {
         });
 
         // 导出私钥按钮点击事件
-        btnExportKeys.setOnClickListener(new View.OnClickListener() {
+        ivExportKeys.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 exportPrivateKey(); // 调用方法导出私钥
@@ -100,7 +102,7 @@ public class MyAccountActivity extends AppCompatActivity {
         });
 
         // 更多功能按钮点击事件
-        btnMoreFeatures.setOnClickListener(new View.OnClickListener() {
+        ivMoreFeatures.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MyAccountActivity.this, MoreFeaturesActivity.class);
@@ -110,8 +112,12 @@ public class MyAccountActivity extends AppCompatActivity {
     }
 
     private void loadSavedUsername() {
-        String username = sharedPreferences.getString(KEY_USERNAME, "未登录");
-        tvAccountName.setText("用户名: " + username);
+        String username = sharedPreferences.getString(KEY_USERNAME, null);
+        if (username != null && !username.isEmpty()) {
+            tvAccountName.setText("Account: " + username);
+        } else {
+            tvAccountName.setText("Not Logged In");
+        }
     }
 
     // 退出登录方法
