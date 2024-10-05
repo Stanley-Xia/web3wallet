@@ -1,13 +1,16 @@
 package com.example.web3wallet;
 
+import android.annotation.SuppressLint;
 import android.content.ClipboardManager;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.view.View;
@@ -20,7 +23,8 @@ public class MyAccountActivity extends AppCompatActivity {
 
     private TextView tvAccountName;
     private Button btnLogin, btnRegister;
-    private ImageView ivLogout, ivMoreFeatures, ivHome, ivImportKeys, ivExportKeys, ivSwitchUser;
+    private ImageView ivLogout, ivMoreFeatures, ivHome;
+    private FrameLayout ivImportKeys, ivExportKeys, ivSwitchUser;
 
     private SharedPreferences sharedPreferences;
     private UserDatabaseHelper userDatabaseHelper;
@@ -28,6 +32,7 @@ public class MyAccountActivity extends AppCompatActivity {
     private static final String PREFS_NAME = "WalletPrefs";
     private static final String KEY_USERNAME = "username";
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,12 +54,50 @@ public class MyAccountActivity extends AppCompatActivity {
 
         loadSavedUsername();
 
+        // 登录按钮触摸事件
+        btnLogin.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false; // 返回 false 让点击事件继续传播
+            }
+        });
+
         // 登录按钮点击事件
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MyAccountActivity.this, LoginActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        // 注册按钮触摸事件
+        btnRegister.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false; // 返回 false 让点击事件继续传播
             }
         });
 
@@ -67,6 +110,25 @@ public class MyAccountActivity extends AppCompatActivity {
             }
         });
 
+        // 导入私钥按钮触摸事件
+        ivImportKeys.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false; // 返回 false 让点击事件继续传播
+            }
+        });
+
         // 导入私钥按钮点击事件
         ivImportKeys.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,11 +137,49 @@ public class MyAccountActivity extends AppCompatActivity {
             }
         });
 
+        // 导出私钥按钮触摸事件
+        ivExportKeys.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false; // 返回 false 让点击事件继续传播
+            }
+        });
+
         // 导出私钥按钮点击事件
         ivExportKeys.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 exportPrivateKey(); // 调用方法导出私钥
+            }
+        });
+
+        // 切换账号按钮触摸事件
+        ivSwitchUser.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false; // 返回 false 让点击事件继续传播
             }
         });
 
@@ -105,7 +205,26 @@ public class MyAccountActivity extends AppCompatActivity {
             }
         });
 
-        // 更多功能图标点击事件
+        // 更多功能按钮触摸事件
+        ivMoreFeatures.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false; // 返回 false 让点击事件继续传播
+            }
+        });
+
+        // 更多功能按钮点击事件
         ivMoreFeatures.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

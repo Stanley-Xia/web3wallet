@@ -103,13 +103,15 @@
 
         <!-- 导入私钥按钮 -->
         <FrameLayout
+            android:id="@+id/ivImportKeys"
             android:layout_width="0dp"
             android:layout_height="64dp"
             android:layout_margin="6dp"
+            android:clickable="true"
             android:layout_columnWeight="1">
 
             <ImageView
-                android:id="@+id/ivImportKeys"
+                android:id="@+id/button_background_1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/button_account_background"
@@ -150,13 +152,14 @@
 
         <!-- 导出私钥按钮 -->
         <FrameLayout
+            android:id="@+id/ivExportKeys"
             android:layout_width="0dp"
             android:layout_height="64dp"
             android:layout_margin="6dp"
             android:layout_columnWeight="1">
 
             <ImageView
-                android:id="@+id/ivExportKeys"
+                android:id="@+id/button_background_2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/button_account_background_2"
@@ -197,13 +200,14 @@
 
         <!-- 切换账户按钮 -->
         <FrameLayout
+            android:id="@+id/ivSwitchUser"
             android:layout_width="0dp"
             android:layout_height="64dp"
             android:layout_margin="6dp"
             android:layout_columnWeight="1">
 
             <ImageView
-                android:id="@+id/ivSwitchUser"
+                android:id="@+id/button_background_3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/button_account_background_3"
@@ -244,13 +248,14 @@
 
         <!-- 获取帮助按钮 -->
         <FrameLayout
+            android:id="@+id/ivHelp"
             android:layout_width="0dp"
             android:layout_height="64dp"
             android:layout_margin="6dp"
             android:layout_columnWeight="1">
 
             <ImageView
-                android:id="@+id/ivHelp"
+                android:id="@+id/button_background_4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/button_account_background_4"

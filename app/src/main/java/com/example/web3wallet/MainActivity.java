@@ -29,12 +29,15 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import android.view.MotionEvent;
+import android.view.View;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText editWalletAddress;
-    private Button btnCheckBalance, btnTransfer, btnQueryTokens, btnSaveAddress;
+    private Button btnCheckBalance, btnTransfer, btnQueryTokens;
     private FrameLayout btnBlockchain, btnMyAccount;
-    private ImageView ethLogo, btnGoToApiKey;
+    private ImageView ethLogo, btnGoToApiKey, btnSaveAddress;
     private TextView textBalance;
 
     private SharedPreferences sharedPreferences;
@@ -57,11 +60,30 @@ public class MainActivity extends AppCompatActivity {
         btnBlockchain = findViewById(R.id.btnBlockchain);
         btnMyAccount = findViewById(R.id.btnMyAccount);
         btnQueryTokens = findViewById(R.id.btnQueryTokens);
-        btnSaveAddress = findViewById(R.id.btnSaveAddress);
+        btnSaveAddress = findViewById(R.id.ivSaveIcon);
         ethLogo = findViewById(R.id.ethLogo);
         textBalance = findViewById(R.id.textBalance);
 
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+
+        // 设置接口按钮触摸事件
+        btnGoToApiKey.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false; // 返回 false 让点击事件继续传播
+            }
+        });
 
         // 设置接口按钮点击事件
         btnGoToApiKey.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +110,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Ethereum Main Network 按钮点击事件
+        // 区块链按钮触摸事件
+        btnBlockchain.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false; // 返回 false 让点击事件继续传播
+            }
+        });
+
+        // 区块链按钮点击事件
         btnBlockchain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,6 +144,25 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, TransactionActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        // 我的账号按钮触摸事件
+        btnMyAccount.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false; // 返回 false 让点击事件继续传播
             }
         });
 
@@ -121,6 +181,25 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, TokenListActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        // 保存按钮触摸事件
+        btnSaveAddress.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false; // 返回 false 让点击事件继续传播
             }
         });
 
@@ -144,6 +223,34 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(MainActivity.this, "请输入有效的钱包地址", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        // 以太坊logo点击事件
+        ethLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 添加旋转动画
+                v.animate().rotationBy(360f).setDuration(500).start();
+            }
+        });
+
+        // 以太坊logo触摸事件
+        ethLogo.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小并降低透明度
+                        v.animate().scaleX(0.9f).scaleY(0.9f).alpha(0.5f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 松开时恢复原样和透明度
+                        v.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(100).start();
+                        break;
+                }
+                return false;
             }
         });
 

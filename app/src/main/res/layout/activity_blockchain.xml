@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:focusableInTouchMode="true">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -45,7 +46,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="创建钱包"
+                        android:text="Create Wallet"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="#FFFFFF"
@@ -80,7 +81,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="恢复钱包"
+                        android:text="Recover wallet"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="#FFFFFF"
@@ -115,7 +116,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="智能合约"
+                        android:text="Smart Contract"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="#FFFFFF"
@@ -159,6 +160,5 @@
 
         </LinearLayout>
     </ScrollView>
-
 
 </LinearLayout>

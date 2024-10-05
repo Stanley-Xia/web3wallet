@@ -1,5 +1,6 @@
 package com.example.web3wallet;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,6 +8,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AlertDialog;
@@ -26,6 +28,7 @@ public class BlockchainActivity extends AppCompatActivity {
     private static final String KEY_USERNAME = "username";
     private static final String KEY_WALLET_ADDRESS_SUFFIX = "_walletAddress";
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,18 +40,22 @@ public class BlockchainActivity extends AppCompatActivity {
         cardRecoverWallet = findViewById(R.id.cardRecoverWallet);
         cardNFT = findViewById(R.id.cardNFT);
 
-        // 智能合约卡片点击事件
-        cardSmartContract.setOnClickListener(new View.OnClickListener() {
+        // 创建钱包卡片触摸事件
+        cardCreateWallet.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-
-                // 检查是否已创建钱包地址
-                if (isWalletAddressCreated()) {
-                    Intent intent = new Intent(BlockchainActivity.this, SmartContractActivity.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(BlockchainActivity.this, "请先创建钱包地址", Toast.LENGTH_SHORT).show();
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.95f).scaleY(0.95f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
                 }
+                return false; // 返回 false 让点击事件继续传播
             }
         });
 
@@ -72,6 +79,96 @@ public class BlockchainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // 恢复钱包卡片触摸事件
+        cardRecoverWallet.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.95f).scaleY(0.95f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false; // 返回 false 让点击事件继续传播
+            }
+        });
+
+        // 恢复钱包卡片点击事件
+        cardRecoverWallet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 调用恢复钱包的方法
+                showRecoverWalletDialog();
+            }
+        });
+
+        // 智能合约卡片触摸事件
+        cardSmartContract.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.95f).scaleY(0.95f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false; // 返回 false 让点击事件继续传播
+            }
+        });
+
+        // 智能合约卡片点击事件
+        cardSmartContract.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // 检查是否已创建钱包地址
+                if (isWalletAddressCreated()) {
+                    Intent intent = new Intent(BlockchainActivity.this, SmartContractActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(BlockchainActivity.this, "请先创建钱包地址", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        // NFT卡片触摸事件
+        cardNFT.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.95f).scaleY(0.95f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false; // 返回 false 让点击事件继续传播
+            }
+        });
+
+        // NFT 卡片点击事件
+        cardNFT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(BlockchainActivity.this, "NFT 功能尚未完成，敬请期待！", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     // 检查当前用户是否已创建钱包地址
@@ -194,4 +291,66 @@ public class BlockchainActivity extends AppCompatActivity {
 
         builder.show();
     }
+
+    // 显示恢复钱包对话框
+    private void showRecoverWalletDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("恢复钱包");
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        input.setHint("请输入私钥");
+        builder.setView(input);
+
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String privateKey = input.getText().toString();
+                if (!privateKey.isEmpty()) {
+                    recoverWallet(privateKey); // 调用恢复钱包方法
+                } else {
+                    Toast.makeText(BlockchainActivity.this, "私钥不能为空", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    // 恢复钱包方法
+    private void recoverWallet(String privateKey) {
+        try {
+            // 验证私钥是否有效
+            if (WalletUtils.isValidPrivateKey(privateKey)) {
+                // 从私钥生成钱包地址
+                String walletAddress = WalletUtils.getAddressFromPrivateKey(privateKey);
+
+                // 将地址存入剪贴板
+                copyToClipboard(walletAddress);
+                Toast.makeText(BlockchainActivity.this, "钱包地址已复制到剪贴板: " + walletAddress, Toast.LENGTH_LONG).show();
+
+            } else {
+                Toast.makeText(BlockchainActivity.this, "无效的私钥", Toast.LENGTH_SHORT).show();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(BlockchainActivity.this, "恢复钱包失败：" + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    // 将生成的钱包地址复制到剪贴板
+    private void copyToClipboard(String walletAddress) {
+        android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        android.content.ClipData clip = android.content.ClipData.newPlainText("Wallet Address", walletAddress);
+        clipboard.setPrimaryClip(clip);
+    }
+
 }
