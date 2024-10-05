@@ -1,15 +1,18 @@
 package com.example.web3wallet;
 
+import android.annotation.SuppressLint;
 import android.content.ClipboardManager;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -30,7 +33,8 @@ public class TransactionActivity extends AppCompatActivity {
     private EditText editReceiverAddress, editAmount;
 
     // 定义发送交易、接收钱包地址和记录按钮
-    private Button btnSend, btnReceive, btnRecords;
+    private Button btnRecords;
+    private FrameLayout btnSend, btnReceive;
 
     // 数据库助手实例
     private UserDatabaseHelper databaseHelper;
@@ -38,6 +42,7 @@ public class TransactionActivity extends AppCompatActivity {
     // Alchemy API URL
     private String alchemyUrl;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +67,25 @@ public class TransactionActivity extends AppCompatActivity {
             return;
         }
 
+        // 发送按钮触摸事件
+        btnSend.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false; // 返回 false 让点击事件继续传播
+            }
+        });
+
         // 发送按钮点击事件
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +108,25 @@ public class TransactionActivity extends AppCompatActivity {
                     // 提示用户填写完整信息
                     Toast.makeText(TransactionActivity.this, "请输入有效的收款地址和金额", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        // 接收按钮触摸事件
+        btnReceive.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false; // 返回 false 让点击事件继续传播
             }
         });
 
@@ -122,6 +165,25 @@ public class TransactionActivity extends AppCompatActivity {
                     // 提示用户名未找到
                     Toast.makeText(TransactionActivity.this, "未找到用户名，请先登录", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        // 历史记录按钮触摸事件
+        btnRecords.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false; // 返回 false 让点击事件继续传播
             }
         });
 

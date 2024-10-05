@@ -1,107 +1,341 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="#F5F5F5"
     android:padding="16dp"
     android:focusableInTouchMode="true">
 
+    <!-- logo -->
+    <ImageView
+        android:id="@+id/ivEthereumIcon"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/ic_ethereum"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="12dp" />
+
+    <!-- Send to -->
+    <TextView
+        android:id="@+id/tvSendTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send to"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"/>
+
+    <!-- Ethereum Main Network -->
     <LinearLayout
+        android:id="@+id/network"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@drawable/custom_background_display"
+        app:layout_constraintTop_toBottomOf="@id/tvSendTo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:paddingHorizontal="12dp">
+
+        <TextView
+            android:id="@+id/tvGreenDot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="•"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="#3DDC84"
+            android:layout_marginEnd="6dp" />
+
+        <TextView
+            android:id="@+id/tvNetworkStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ethereum Main Network"
+            android:textSize="14sp"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/inputSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:backgroundTint="#87CEEB"
-        android:background="@drawable/blue_border_background"
-        android:layout_marginBottom="16dp">
+        app:layout_constraintTop_toBottomOf="@+id/network"
+        android:layout_marginTop="32dp">
 
-        <!-- 收款地址 -->
-        <EditText
-            android:id="@+id/editReceiverAddress"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:hint="收款地址"
-            android:inputType="text"
-            android:padding="12dp"
-            android:background="@drawable/blue_border_background"
-            android:layout_marginBottom="-3dp"/>
-
-        <!-- 金额 -->
-        <EditText
-            android:id="@+id/editAmount"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:hint="金额 (ETH)"
-            android:inputType="numberDecimal"
-            android:padding="12dp"
-            android:background="@drawable/blue_border_background"
-            android:layout_marginBottom="-3dp"/>
-
-        <!-- 历史记录按钮 -->
+        <!-- From -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
 
-            <Button
-                android:id="@+id/btnRecords"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:text="历史记录"
-                android:textSize="16sp"
-                android:background="@android:drawable/editbox_background"
-                android:padding="12dp"/>
+            <TextView
+                android:id="@+id/tvFromLabel"
+                android:layout_width="58dp"
+                android:layout_height="wrap_content"
+                android:text="From:"
+                android:textSize="18sp"
+                android:textColor="#000000"
+                android:layout_gravity="center_vertical"/>
+
+            <LinearLayout
+                android:id="@+id/fromSection"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingHorizontal="6dp"
+                android:paddingVertical="12dp"
+                android:background="@drawable/border_transaction"
+                android:layout_marginStart="8dp"
+                android:layout_gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tvCurrentAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Not Logged In"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:padding="12dp"
+                    android:textColor="#7F8C8D"/>
+            </LinearLayout>
         </LinearLayout>
+
+        <!-- Amount -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:id="@+id/tvAmountLabel"
+                android:layout_width="58dp"
+                android:layout_height="wrap_content"
+                android:text="eth:"
+                android:textSize="18sp"
+                android:textColor="#000000"
+                android:layout_gravity="center_vertical"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="6dp"
+                android:background="@drawable/border_transaction"
+                android:layout_marginStart="8dp"
+                android:layout_gravity="center_vertical">
+
+                <EditText
+                    android:id="@+id/editAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter amount to send"
+                    android:inputType="numberDecimal"
+                    android:padding="12dp"
+                    android:background="#FFFFFF"
+                    android:textColor="#7F8C8D"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- To -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:id="@+id/tvToLabel"
+                android:layout_width="58dp"
+                android:layout_height="wrap_content"
+                android:text="To:"
+                android:textSize="18sp"
+                android:textColor="#000000"
+                android:layout_gravity="center_vertical"/>
+
+            <LinearLayout
+                android:id="@+id/toSection"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="6dp"
+                android:background="@drawable/border_transaction"
+                android:layout_marginStart="8dp"
+                android:layout_gravity="center_vertical">
+
+                <EditText
+                    android:id="@+id/editReceiverAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter recipient address"
+                    android:inputType="text"
+                    android:padding="12dp"
+                    android:background="#FFFFFF"
+                    android:textColor="#7F8C8D"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="32dp"
+            android:background="#7F8C8D"/>
 
     </LinearLayout>
 
-    <!-- 交易图标 -->
-    <ImageView
-        android:id="@+id/logoImage"
+    <TextView
+        android:id="@+id/tvCurrentPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/exchangelogo"
-        android:layout_marginTop="80dp"/>
+        android:text="ETH: $XXXX.XX"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#3DDC84"
+        app:layout_constraintTop_toBottomOf="@id/transactionButtons"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="36dp"/>
 
-    <View
+    <GridLayout
+        android:id="@+id/transactionButtons"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="16dp">
+        android:rowCount="1"
+        android:columnCount="2"
+        android:background="@drawable/gradient_background"
+        android:padding="6dp"
+        app:layout_constraintTop_toBottomOf="@+id/inputSection"
+        android:layout_marginTop="32dp">
 
-        <!-- 发送按钮 -->
-        <Button
+        <!-- Send -->
+        <FrameLayout
             android:id="@+id/btnSend"
             android:layout_width="0dp"
             android:layout_height="64dp"
-            android:layout_weight="1"
-            android:text="发送"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:padding="12dp"
-            android:layout_marginEnd="36dp"
-            android:layout_marginStart="12dp"
-            android:backgroundTint="#FF7B6C"/>
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1">
 
-        <!-- 接收按钮 -->
-        <Button
+            <ImageView
+                android:id="@+id/button_background_send"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/button_account_background_2"
+                android:scaleType="centerCrop"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="6dp"
+                android:orientation="vertical"
+                android:gravity="start">
+
+                <ImageView
+                    android:id="@+id/ivSendIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_send"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="8dp"/>
+
+                <TextView
+                    android:id="@+id/tvSend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="Send"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_gravity="start"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="8dp"/>
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <!-- Receive -->
+        <FrameLayout
             android:id="@+id/btnReceive"
             android:layout_width="0dp"
             android:layout_height="64dp"
-            android:layout_weight="1"
-            android:text="接收"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:padding="12dp"
-            android:layout_marginEnd="12dp"
-            android:backgroundTint="#3DDC80"/>
-    </LinearLayout>
+            android:layout_margin="6dp"
+            android:layout_columnWeight="1">
 
-</LinearLayout>
+            <ImageView
+                android:id="@+id/button_background_receive"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/button_account_background_3"
+                android:scaleType="centerCrop"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="4dp"
+                android:paddingVertical="6dp"
+                android:orientation="vertical"
+                android:gravity="start">
+
+                <ImageView
+                    android:id="@+id/ivReceiveIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_receive"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="8dp"/>
+
+                <TextView
+                    android:id="@+id/tvReceive"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="Receive"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:layout_gravity="start"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="8dp"/>
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </GridLayout>
+
+    <!-- History -->
+    <Button
+        android:id="@+id/btnRecords"
+        android:layout_width="match_parent"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_height="60dp"
+        android:text="Transaction History"
+        android:textStyle="bold"
+        android:padding="12dp"
+        android:backgroundTint="#3498DB"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
