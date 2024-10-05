@@ -50,7 +50,7 @@
             android:id="@+id/textBalance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Balance: 0 ETH"
+            android:text="Ethereum Balance"
             android:textSize="18sp"
             android:textColor="#62686E"
             android:padding="12dp"

@@ -200,11 +200,12 @@
 
     </LinearLayout>
 
+    <!-- Price -->
     <TextView
         android:id="@+id/tvCurrentPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ETH: $XXXX.XX"
+        android:text="Ethereum Price"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="#3DDC84"

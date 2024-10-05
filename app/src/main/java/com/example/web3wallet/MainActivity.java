@@ -91,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ApiKeyActivity.class);
                 startActivity(intent);
+                // 添加旋转动画
+                v.animate().rotationBy(360f).setDuration(250).start();
             }
         });
 
@@ -316,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 if (status.equals("1") && message.equals("OK")) {
-                                    textBalance.setText("余额: " + balanceInEther.toString() + " ETH");
+                                    textBalance.setText("You have " + balanceInEther.toString() + " ETH");
                                 } else {
                                     textBalance.setText("查询失败: " + message);
                                 }

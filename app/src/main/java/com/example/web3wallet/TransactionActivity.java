@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -27,6 +28,12 @@ import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class TransactionActivity extends AppCompatActivity {
 
     // 定义收款地址和交易金额的输入框
@@ -35,6 +42,7 @@ public class TransactionActivity extends AppCompatActivity {
     // 定义发送交易、接收钱包地址和记录按钮
     private Button btnRecords;
     private FrameLayout btnSend, btnReceive;
+    private TextView tvCurrentAccount, tvCurrentPrice;
 
     // 数据库助手实例
     private UserDatabaseHelper databaseHelper;
@@ -54,6 +62,8 @@ public class TransactionActivity extends AppCompatActivity {
         btnSend = findViewById(R.id.btnSend);
         btnReceive = findViewById(R.id.btnReceive);
         btnRecords = findViewById(R.id.btnRecords);
+        tvCurrentAccount = findViewById(R.id.tvCurrentAccount);
+        tvCurrentPrice = findViewById(R.id.tvCurrentPrice);
 
         // 初始化数据库助手
         databaseHelper = new UserDatabaseHelper(this);
@@ -66,6 +76,23 @@ public class TransactionActivity extends AppCompatActivity {
             Toast.makeText(this, "Alchemy API 未设置", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        // 获取当前登录的用户名
+        String username = sharedPreferences.getString("username", null);
+
+        // 设置账号显示
+        tvCurrentAccount.setText(username);
+
+        // 初始化 Retrofit
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.coingecko.com/api/v3/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        CoinGeckoPriceService service = retrofit.create(CoinGeckoPriceService.class);
+
+        // 获取ETH实时价格
+        fetchEthPrice(service);
 
         // 发送按钮触摸事件
         btnSend.setOnTouchListener(new View.OnTouchListener() {
@@ -286,6 +313,31 @@ public class TransactionActivity extends AppCompatActivity {
                 });
             }
         }).start();
+    }
+
+    // 获取ETH实时价格
+    private void fetchEthPrice(CoinGeckoPriceService service) {
+        Call<PriceResponse> call = service.getEthPrice();
+
+        call.enqueue(new Callback<PriceResponse>() {
+            @Override
+            public void onResponse(Call<PriceResponse> call, Response<PriceResponse> response) {
+                if (response.isSuccessful()) {
+                    PriceResponse priceResponse = response.body();
+                    if (priceResponse != null && priceResponse.getEthereum() != null) {
+                        String ethPrice = priceResponse.getEthereum().getUsd();
+                        tvCurrentPrice.setText("ETH: $" + ethPrice);
+                    }
+                } else {
+                    tvCurrentPrice.setText("Error loading price");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PriceResponse> call, Throwable t) {
+                tvCurrentPrice.setText("Failed to load price");
+            }
+        });
     }
 
     // 进入页面时不会自动获得焦点
