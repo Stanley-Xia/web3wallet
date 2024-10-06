@@ -40,6 +40,7 @@ public class TokenListActivity extends AppCompatActivity {
 
         tokenListView = findViewById(R.id.tokenListView);
 
+        // 初始化代币列表
         tokenList = new ArrayList<>();
         tokenList.add(new Token("LINK", "$", R.drawable.token_link));
         tokenList.add(new Token("MKR", "$", R.drawable.token_mkr));
@@ -56,8 +57,8 @@ public class TokenListActivity extends AppCompatActivity {
         tokenList.add(new Token("USDC", "$", R.drawable.token_usdc));
         tokenList.add(new Token("DAI", "$", R.drawable.token_dai));
 
+        //初始化适配器
         tokenAdapter = new TokenAdapter(this, tokenList);
-
         tokenListView.setAdapter(tokenAdapter);
 
         // 初始化 Retrofit 实例
@@ -69,22 +70,22 @@ public class TokenListActivity extends AppCompatActivity {
         // 创建 API 服务
         service = retrofit.create(CoinGeckoPriceService.class);
 
+        // 更新代币的价格和涨跌幅
         updateAllTokenPrices();
 
+        // 初始化更多信息按钮
         moreInfoButton = findViewById(R.id.moreInfoButton);
 
-        // 更多信息按钮触摸事件
+        // 更多信息按钮触摸效果
         moreInfoButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        // 按下时缩小
                         v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        // 抬起时恢复原样
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                         break;
                 }
@@ -101,30 +102,57 @@ public class TokenListActivity extends AppCompatActivity {
                 startActivity(browserIntent);
             }
         });
-
     }
+
+    // 更新代币价格和涨跌幅
     private void updateAllTokenPrices() {
-        service.getMultipleTokenPrices().enqueue(new Callback<Map<String, Map<String, Double>>>() {
+        service.getMultipleTokenPricesWithChange().enqueue(new Callback<Map<String, Map<String, Double>>>() {
             @Override
             public void onResponse(Call<Map<String, Map<String, Double>>> call, Response<Map<String, Map<String, Double>>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Map<String, Map<String, Double>> prices = response.body();
 
-                    // 更新代币价格
                     tokenList.get(0).setPrice("$" + (prices.get("chainlink") != null && prices.get("chainlink").get("usd") != null ? prices.get("chainlink").get("usd").toString() : "N/A"));
+                    tokenList.get(0).setPriceChange24h(prices.get("chainlink") != null && prices.get("chainlink").get("usd_24h_change") != null ? prices.get("chainlink").get("usd_24h_change") : 0.0);
+
                     tokenList.get(1).setPrice("$" + (prices.get("maker") != null && prices.get("maker").get("usd") != null ? prices.get("maker").get("usd").toString() : "N/A"));
+                    tokenList.get(1).setPriceChange24h(prices.get("maker") != null && prices.get("maker").get("usd_24h_change") != null ? prices.get("maker").get("usd_24h_change") : 0.0);
+
                     tokenList.get(2).setPrice("$" + (prices.get("sushi") != null && prices.get("sushi").get("usd") != null ? prices.get("sushi").get("usd").toString() : "N/A"));
+                    tokenList.get(2).setPriceChange24h(prices.get("sushi") != null && prices.get("sushi").get("usd_24h_change") != null ? prices.get("sushi").get("usd_24h_change") : 0.0);
+
                     tokenList.get(3).setPrice("$" + (prices.get("uniswap") != null && prices.get("uniswap").get("usd") != null ? prices.get("uniswap").get("usd").toString() : "N/A"));
+                    tokenList.get(3).setPriceChange24h(prices.get("uniswap") != null && prices.get("uniswap").get("usd_24h_change") != null ? prices.get("uniswap").get("usd_24h_change") : 0.0);
+
                     tokenList.get(4).setPrice("$" + (prices.get("yearn-finance") != null && prices.get("yearn-finance").get("usd") != null ? prices.get("yearn-finance").get("usd").toString() : "N/A"));
+                    tokenList.get(4).setPriceChange24h(prices.get("yearn-finance") != null && prices.get("yearn-finance").get("usd_24h_change") != null ? prices.get("yearn-finance").get("usd_24h_change") : 0.0);
+
                     tokenList.get(5).setPrice("$" + (prices.get("basic-attention-token") != null && prices.get("basic-attention-token").get("usd") != null ? prices.get("basic-attention-token").get("usd").toString() : "N/A"));
+                    tokenList.get(5).setPriceChange24h(prices.get("basic-attention-token") != null && prices.get("basic-attention-token").get("usd_24h_change") != null ? prices.get("basic-attention-token").get("usd_24h_change") : 0.0);
+
                     tokenList.get(6).setPrice("$" + (prices.get("1inch") != null && prices.get("1inch").get("usd") != null ? prices.get("1inch").get("usd").toString() : "N/A"));
+                    tokenList.get(6).setPriceChange24h(prices.get("1inch") != null && prices.get("1inch").get("usd_24h_change") != null ? prices.get("1inch").get("usd_24h_change") : 0.0);
+
                     tokenList.get(7).setPrice("$" + (prices.get("aave") != null && prices.get("aave").get("usd") != null ? prices.get("aave").get("usd").toString() : "N/A"));
+                    tokenList.get(7).setPriceChange24h(prices.get("aave") != null && prices.get("aave").get("usd_24h_change") != null ? prices.get("aave").get("usd_24h_change") : 0.0);
+
                     tokenList.get(8).setPrice("$" + (prices.get("ethereum") != null && prices.get("ethereum").get("usd") != null ? prices.get("ethereum").get("usd").toString() : "N/A"));
+                    tokenList.get(8).setPriceChange24h(prices.get("ethereum") != null && prices.get("ethereum").get("usd_24h_change") != null ? prices.get("ethereum").get("usd_24h_change") : 0.0);
+
                     tokenList.get(9).setPrice("$" + (prices.get("binancecoin") != null && prices.get("binancecoin").get("usd") != null ? prices.get("binancecoin").get("usd").toString() : "N/A"));
+                    tokenList.get(9).setPriceChange24h(prices.get("binancecoin") != null && prices.get("binancecoin").get("usd_24h_change") != null ? prices.get("binancecoin").get("usd_24h_change") : 0.0);
+
                     tokenList.get(10).setPrice("$" + (prices.get("tether") != null && prices.get("tether").get("usd") != null ? prices.get("tether").get("usd").toString() : "N/A"));
+                    tokenList.get(10).setPriceChange24h(prices.get("tether") != null && prices.get("tether").get("usd_24h_change") != null ? prices.get("tether").get("usd_24h_change") : 0.0);
+
                     tokenList.get(11).setPrice("$" + (prices.get("solana") != null && prices.get("solana").get("usd") != null ? prices.get("solana").get("usd").toString() : "N/A"));
+                    tokenList.get(11).setPriceChange24h(prices.get("solana") != null && prices.get("solana").get("usd_24h_change") != null ? prices.get("solana").get("usd_24h_change") : 0.0);
+
                     tokenList.get(12).setPrice("$" + (prices.get("usd-coin") != null && prices.get("usd-coin").get("usd") != null ? prices.get("usd-coin").get("usd").toString() : "N/A"));
+                    tokenList.get(12).setPriceChange24h(prices.get("usd-coin") != null && prices.get("usd-coin").get("usd_24h_change") != null ? prices.get("usd-coin").get("usd_24h_change") : 0.0);
+
                     tokenList.get(13).setPrice("$" + (prices.get("dai") != null && prices.get("dai").get("usd") != null ? prices.get("dai").get("usd").toString() : "N/A"));
+                    tokenList.get(13).setPriceChange24h(prices.get("dai") != null && prices.get("dai").get("usd_24h_change") != null ? prices.get("dai").get("usd_24h_change") : 0.0);
 
                     // 通知适配器数据已更改
                     tokenAdapter.notifyDataSetChanged();

@@ -45,6 +45,7 @@ public class TokenAdapter extends BaseAdapter {
             holder.tokenIcon = convertView.findViewById(R.id.tokenIcon);
             holder.tokenName = convertView.findViewById(R.id.tokenName);
             holder.tokenPrice = convertView.findViewById(R.id.tokenPrice);
+            holder.priceChange = convertView.findViewById(R.id.priceChange);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -58,6 +59,14 @@ public class TokenAdapter extends BaseAdapter {
         holder.tokenPrice.setText(token.getPrice());
         holder.tokenIcon.setImageResource(token.getIconResId());
 
+        double priceChange24h = token.getPriceChange24h();
+        if (priceChange24h >= 0) {
+            holder.priceChange.setText("+" + String.format("%.2f", priceChange24h) + "%");
+            holder.priceChange.setTextColor(convertView.getContext().getResources().getColor(R.color.green));
+        } else {
+            holder.priceChange.setText(String.format("%.2f", priceChange24h) + "%");
+            holder.priceChange.setTextColor(convertView.getContext().getResources().getColor(R.color.red));
+        }
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,5 +89,6 @@ public class TokenAdapter extends BaseAdapter {
         ImageView tokenIcon;
         TextView tokenName;
         TextView tokenPrice;
+        TextView priceChange;
     }
 }

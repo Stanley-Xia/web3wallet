@@ -68,7 +68,7 @@
                 android:layout_width="0dp"
                 android:layout_height="54dp"
                 android:layout_weight="1"
-                android:text="登录"
+                android:text="Login"
                 android:backgroundTint="#7F8C8D"
                 android:gravity="center"
                 android:padding="12dp"
@@ -79,7 +79,7 @@
                 android:layout_width="0dp"
                 android:layout_height="54dp"
                 android:layout_weight="1"
-                android:text="注册"
+                android:text="Sign Up"
                 android:backgroundTint="#7F8C8D"
                 android:gravity="center"
                 android:padding="12dp"/>
