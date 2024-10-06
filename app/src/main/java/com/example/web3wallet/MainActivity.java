@@ -96,6 +96,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // 查询余额按钮触摸事件
+        btnCheckBalance.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false; // 返回 false 让点击事件继续传播
+            }
+        });
+
         // 查询余额按钮点击事件
         btnCheckBalance.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,6 +159,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // 转账按钮触摸事件
+        btnTransfer.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false; // 返回 false 让点击事件继续传播
+            }
+        });
+
         // 转账按钮点击事件
         btnTransfer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,6 +212,25 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, MyAccountActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        // 查询代币按钮触摸事件
+        btnQueryTokens.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false; // 返回 false 让点击事件继续传播
             }
         });
 

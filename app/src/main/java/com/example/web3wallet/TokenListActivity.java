@@ -1,8 +1,10 @@
 package com.example.web3wallet;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -30,6 +32,7 @@ public class TokenListActivity extends AppCompatActivity {
     private Call<Map<String, Map<String, Double>>> call;
     private Button moreInfoButton;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +71,29 @@ public class TokenListActivity extends AppCompatActivity {
 
         updateAllTokenPrices();
 
-        findViewById(R.id.moreInfoButton).setOnClickListener(new View.OnClickListener() {
+        moreInfoButton = findViewById(R.id.moreInfoButton);
+
+        // 更多信息按钮触摸事件
+        moreInfoButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 抬起时恢复原样
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false; // 返回 false 让点击事件继续传播
+            }
+        });
+
+        // 更多信息按钮点击事件
+        moreInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 创建 Intent，跳转到币安的官网
