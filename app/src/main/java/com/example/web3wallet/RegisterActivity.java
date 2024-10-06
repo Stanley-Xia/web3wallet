@@ -1,10 +1,13 @@
 package com.example.web3wallet;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,11 +16,12 @@ public class RegisterActivity extends AppCompatActivity {
 
     // 用户名和密码输入框、注册按钮
     private EditText editUsername, editPassword;
-    private Button btnRegister;
+    private LinearLayout btnRegister;
 
     // 数据库帮助类实例
     private UserDatabaseHelper db;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,13 +35,32 @@ public class RegisterActivity extends AppCompatActivity {
         // 初始化数据库帮助类
         db = new UserDatabaseHelper(this);
 
+        // 注册按钮触摸事件
+        btnRegister.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // 按下时缩小并降低透明度
+                        v.animate().scaleX(0.9f).scaleY(0.9f).alpha(0.8f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        // 松开时恢复原样和透明度
+                        v.animate().scaleX(1f).scaleY(1f).alpha(1f).setDuration(100).start();
+                        break;
+                }
+                return false;
+            }
+        });
+
         // 注册按钮点击事件
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 获取用户输入的用户名和密码
-                String username = editUsername.getText().toString();
-                String password = editPassword.getText().toString();
+                String username = editUsername.getText().toString().trim();
+                String password = editPassword.getText().toString().trim();
 
                 // 检查用户名和密码是否为空
                 if (!username.isEmpty() && !password.isEmpty()) {

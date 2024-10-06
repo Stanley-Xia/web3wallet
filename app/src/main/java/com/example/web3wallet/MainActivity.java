@@ -301,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         // 按下时缩小并降低透明度
-                        v.animate().scaleX(0.9f).scaleY(0.9f).alpha(0.5f).setDuration(100).start();
+                        v.animate().scaleX(0.9f).scaleY(0.9f).alpha(0.8f).setDuration(100).start();
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
