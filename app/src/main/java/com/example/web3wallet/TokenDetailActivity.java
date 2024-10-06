@@ -17,6 +17,8 @@ public class TokenDetailActivity extends AppCompatActivity {
     private TextView tokenNameTextView;
     private TextView tokenSymbolTextView;
     private TextView tokenPriceTextView;
+    private TextView tokenVolumeTextView;
+    private TextView tokenMarketCapTextView;
     private TextView tokenDescriptionTextView;
 
     private static final String COINGECKO_BASE_URL = "https://api.coingecko.com/api/v3/";
@@ -30,6 +32,8 @@ public class TokenDetailActivity extends AppCompatActivity {
         tokenNameTextView = findViewById(R.id.tokenNameTextView);
         tokenSymbolTextView = findViewById(R.id.tokenSymbolTextView);
         tokenPriceTextView = findViewById(R.id.tokenPriceTextView);
+        tokenVolumeTextView = findViewById(R.id.tokenVolumeTextView);
+        tokenMarketCapTextView = findViewById(R.id.tokenMarketCapTextView);
         tokenDescriptionTextView = findViewById(R.id.tokenDescriptionTextView);
 
         // 获取从上一个 Activity 传递过来的代币名称
@@ -39,7 +43,7 @@ public class TokenDetailActivity extends AppCompatActivity {
         if (tokenName != null && !tokenName.isEmpty()) {
             getTokenDetails(tokenName);
         } else {
-            tokenNameTextView.setText("未找到代币详细信息");
+            tokenNameTextView.setText("Token details not found");
         }
     }
 
@@ -47,7 +51,7 @@ public class TokenDetailActivity extends AppCompatActivity {
     private void getTokenDetails(String tokenName) {
         String tokenId = getTokenId(tokenName);
         if (tokenId == null) {
-            tokenNameTextView.setText("未找到代币的 ID");
+            tokenNameTextView.setText("Token ID not found");
             return;
         }
 
@@ -62,23 +66,25 @@ public class TokenDetailActivity extends AppCompatActivity {
             public void onResponse(Call<TokenDetails> call, Response<TokenDetails> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     TokenDetails tokenDetails = response.body();
-                    tokenNameTextView.setText("代币名称: " + tokenDetails.getName());
-                    tokenSymbolTextView.setText("符号: " + tokenDetails.getSymbol());
-                    tokenPriceTextView.setText("当前价格: $" + tokenDetails.getMarketData().getCurrentPrice().get("usd"));
+                    tokenNameTextView.setText("Token Name: " + tokenDetails.getName());
+                    tokenSymbolTextView.setText("Symbol: " + tokenDetails.getSymbol());
+                    tokenPriceTextView.setText("Current Price: $" + tokenDetails.getMarketData().getCurrentPrice().get("usd"));
+                    tokenVolumeTextView.setText("Volume: $" + tokenDetails.getMarketData().getTotalVolume().get("usd"));
+                    tokenMarketCapTextView.setText("Market Cap: $" + tokenDetails.getMarketData().getMarketCap().get("usd"));
 
                     if (tokenDetails.getDescription() != null && !tokenDetails.getDescription().get("en").isEmpty()) {
-                        tokenDescriptionTextView.setText("简介: " + tokenDetails.getDescription().get("en"));
+                        tokenDescriptionTextView.setText("Description: " + tokenDetails.getDescription().get("en"));
                     } else {
-                        tokenDescriptionTextView.setText("暂无简介信息");
+                        tokenDescriptionTextView.setText("No description available");
                     }
                 } else {
-                    tokenNameTextView.setText("无法获取代币详细信息");
+                    tokenNameTextView.setText("Unable to fetch token details");
                 }
             }
 
             @Override
             public void onFailure(Call<TokenDetails> call, Throwable t) {
-                Toast.makeText(TokenDetailActivity.this, "网络错误", Toast.LENGTH_SHORT).show();
+                Toast.makeText(TokenDetailActivity.this, "Network error", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -112,6 +118,8 @@ public class TokenDetailActivity extends AppCompatActivity {
                 return "yearn-finance";
             case "BAT":
                 return "basic-attention-token";
+            case "DAI":
+                return "dai";
             default:
                 return null;
         }

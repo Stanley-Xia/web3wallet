@@ -2,57 +2,86 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="0dp"
+    android:background="@drawable/gradient_background_2">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:background="@android:color/white"
-        android:elevation="4dp"
-        android:layout_margin="8dp">
+        android:padding="20dp"
+        android:gravity="center"
+        android:background="@drawable/card_background"
+        android:elevation="10dp"
+        android:layout_margin="16dp">
 
-        <!-- 代币名称 -->
+        <!-- Name -->
         <TextView
             android:id="@+id/tokenNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="代币名称"
-            android:textSize="24sp"
+            android:text="Token Name"
+            android:textSize="28sp"
             android:textStyle="bold"
-            android:layout_marginBottom="12dp"
-            android:textColor="#000000"/>
+            android:textColor="#00adb5"
+            android:layout_gravity="center"
+            android:shadowColor="#000000"
+            android:shadowRadius="2"/>
 
-        <!-- 代币符号 -->
+        <!-- Symbol -->
         <TextView
             android:id="@+id/tokenSymbolTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="符号"
-            android:textSize="20sp"
-            android:layout_marginBottom="8dp"
-            android:textColor="#666666"/>
+            android:text="Symbol"
+            android:textSize="22sp"
+            android:textColor="#a36ac9"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center"/>
 
-        <!-- 当前价格 -->
+        <!-- 币价 -->
         <TextView
             android:id="@+id/tokenPriceTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="当前价格"
-            android:textSize="22sp"
+            android:text="Current Price"
+            android:textSize="24sp"
             android:textStyle="bold"
-            android:layout_marginBottom="16dp"
-            android:textColor="#228B22"/>
+            android:textColor="#00ff95"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="center"/>
 
-        <!-- 代币简介 -->
+        <!-- 交易量 -->
+        <TextView
+            android:id="@+id/tokenVolumeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trading Volume"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"/>
+
+        <!-- 市值 -->
+        <TextView
+            android:id="@+id/tokenMarketCapTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Market Cap"
+            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"/>
+
+        <!-- 代币信息 -->
         <TextView
             android:id="@+id/tokenDescriptionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="代币简介"
+            android:text="Description"
             android:textSize="18sp"
-            android:layout_marginTop="12dp"
-            android:textColor="#333333"/>
+            android:textColor="@color/white"
+            android:layout_marginTop="16dp"
+            android:gravity="center"/>
     </LinearLayout>
 </ScrollView>

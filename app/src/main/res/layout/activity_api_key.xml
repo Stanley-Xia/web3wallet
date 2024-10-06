@@ -3,35 +3,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="30dp"
     android:focusableInTouchMode="true">
 
+    <!-- API 图标 -->
+    <ImageView
+        android:id="@+id/apiLogo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/logo_api"
+        android:layout_gravity="center"
+        android:layout_marginBottom="32dp"/>
+
+    <!-- Etherscan API 输入框 -->
     <EditText
         android:id="@+id/editEtherscanApi"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:hint="Etherscan API"
         android:inputType="text"
-        android:padding="12dp"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="18dp"
         android:background="@drawable/text_custom_background_3"
         android:layout_marginBottom="16dp"/>
 
+    <!-- Alchemy API 输入框 -->
     <EditText
         android:id="@+id/editAlchemyApi"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:hint="Alchemy API"
         android:inputType="text"
-        android:padding="12dp"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="18dp"
         android:background="@drawable/text_custom_background_3"
         android:layout_marginBottom="12dp"/>
 
+    <!-- 保存按钮 -->
     <Button
         android:id="@+id/btnSaveApi"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:textSize="16sp"
-        android:layout_gravity="center"
-        android:text="保存"
+        android:text="Confirm"
+        android:backgroundTint="#4CAF50"
         android:padding="12dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp"
+        android:layout_marginTop="36dp"
+        android:layout_gravity="bottom">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please note: This interface is for testing purposes only and is not part of the final version of the app."
+            android:textSize="14sp"
+            android:lineSpacingExtra="4dp"
+            android:textStyle="italic"
+            android:textColor="@android:color/darker_gray"
+            android:gravity="center"/>
+    </LinearLayout>
+
 </LinearLayout>

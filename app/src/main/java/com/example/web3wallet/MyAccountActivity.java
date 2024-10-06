@@ -23,7 +23,7 @@ public class MyAccountActivity extends AppCompatActivity {
 
     private TextView tvAccountName;
     private Button btnLogin, btnRegister;
-    private ImageView ivLogout, ivMoreFeatures, ivHome;
+    private ImageView ivLogout, ivMoreFeatures, ivHome, ivSettings;
     private FrameLayout ivImportKeys, ivExportKeys, ivSwitchUser;
 
     private SharedPreferences sharedPreferences;
@@ -48,6 +48,7 @@ public class MyAccountActivity extends AppCompatActivity {
         ivExportKeys = findViewById(R.id.ivExportKeys);
         ivMoreFeatures = findViewById(R.id.ivMoreFeatures);
         ivSwitchUser = findViewById(R.id.ivSwitchUser);
+        ivSettings = findViewById(R.id.ivSettings);
 
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         userDatabaseHelper = new UserDatabaseHelper(this);
@@ -60,16 +61,14 @@ public class MyAccountActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        // 按下时缩小
                         v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        // 抬起时恢复原样
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                         break;
                 }
-                return false; // 返回 false 让点击事件继续传播
+                return false;
             }
         });
 
@@ -88,16 +87,14 @@ public class MyAccountActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        // 按下时缩小
                         v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        // 抬起时恢复原样
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                         break;
                 }
-                return false; // 返回 false 让点击事件继续传播
+                return false;
             }
         });
 
@@ -116,16 +113,15 @@ public class MyAccountActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        // 按下时缩小
+
                         v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        // 抬起时恢复原样
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                         break;
                 }
-                return false; // 返回 false 让点击事件继续传播
+                return false;
             }
         });
 
@@ -133,7 +129,7 @@ public class MyAccountActivity extends AppCompatActivity {
         ivImportKeys.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showImportKeyDialog(); // 调用方法显示导入私钥对话框
+                showImportKeyDialog();
             }
         });
 
@@ -143,16 +139,14 @@ public class MyAccountActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        // 按下时缩小
                         v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        // 抬起时恢复原样
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                         break;
                 }
-                return false; // 返回 false 让点击事件继续传播
+                return false;
             }
         });
 
@@ -160,7 +154,7 @@ public class MyAccountActivity extends AppCompatActivity {
         ivExportKeys.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                exportPrivateKey(); // 调用方法导出私钥
+                exportPrivateKey();
             }
         });
 
@@ -170,16 +164,14 @@ public class MyAccountActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        // 按下时缩小
                         v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        // 抬起时恢复原样
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                         break;
                 }
-                return false; // 返回 false 让点击事件继续传播
+                return false;
             }
         });
 
@@ -194,16 +186,40 @@ public class MyAccountActivity extends AppCompatActivity {
                 editor.remove("wallet_address");
                 editor.apply();
 
-                // 提示用户已退出
                 Toast.makeText(MyAccountActivity.this, "已退出登录", Toast.LENGTH_SHORT).show();
 
                 // 跳转到登录页面
                 Intent intent = new Intent(MyAccountActivity.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // 清除所有活动栈
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
-                finish(); // 结束当前活动
+                finish();
             }
         });
+
+        ivSettings.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false;
+            }
+        });
+
+        ivSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 显示 "功能正在开发中" 的提示信息
+                Toast.makeText(MyAccountActivity.this, "功能正在开发中", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         // 更多功能按钮触摸事件
         ivMoreFeatures.setOnTouchListener(new View.OnTouchListener() {
@@ -211,16 +227,14 @@ public class MyAccountActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        // 按下时缩小
                         v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        // 抬起时恢复原样
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                         break;
                 }
-                return false; // 返回 false 让点击事件继续传播
+                return false;
             }
         });
 
@@ -233,18 +247,52 @@ public class MyAccountActivity extends AppCompatActivity {
             }
         });
 
-        // 返回主页按图标击事件
+        // 返回主页按钮触摸事件
+        ivHome.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false;
+            }
+        });
+
+        // 返回主页按钮点击事件
         ivHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MyAccountActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                finish(); // 结束当前Activity
+                finish();
             }
         });
 
-        // 退出登录图标点击事件
+        // 退出登录按钮触摸事件
+        ivHome.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false;
+            }
+        });
+
+        // 退出登录按钮点击事件
         ivLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

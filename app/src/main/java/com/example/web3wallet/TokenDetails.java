@@ -15,9 +15,19 @@ public class TokenDetails {
 
     public static class MarketData {
         private Map<String, Double> current_price;
+        private Map<String, Double> total_volume;
+        private Map<String, Double> market_cap;
 
         public Map<String, Double> getCurrentPrice() {
             return current_price;
+        }
+
+        public Map<String, Double> getTotalVolume() {
+            return total_volume;
+        }
+
+        public Map<String, Double> getMarketCap() {
+            return market_cap;
         }
     }
 }
