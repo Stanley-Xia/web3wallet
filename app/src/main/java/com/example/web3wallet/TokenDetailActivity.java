@@ -14,13 +14,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TokenDetailActivity extends AppCompatActivity {
 
-    // 用于显示代币详细信息的 TextView
     private TextView tokenNameTextView;
     private TextView tokenSymbolTextView;
     private TextView tokenPriceTextView;
     private TextView tokenDescriptionTextView;
 
-    // CoinGecko API 的基础 URL
     private static final String COINGECKO_BASE_URL = "https://api.coingecko.com/api/v3/";
 
     @Override
@@ -28,7 +26,7 @@ public class TokenDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_token_detail);
 
-        // 初始化 TextView，用于展示代币的详细信息
+        // 初始化 TextView
         tokenNameTextView = findViewById(R.id.tokenNameTextView);
         tokenSymbolTextView = findViewById(R.id.tokenSymbolTextView);
         tokenPriceTextView = findViewById(R.id.tokenPriceTextView);
@@ -39,7 +37,7 @@ public class TokenDetailActivity extends AppCompatActivity {
 
         // 如果代币名称不为空，获取代币详细信息
         if (tokenName != null && !tokenName.isEmpty()) {
-            getTokenDetails(tokenName); // 调用函数获取代币详细信息
+            getTokenDetails(tokenName);
         } else {
             tokenNameTextView.setText("未找到代币详细信息");
         }
@@ -47,7 +45,7 @@ public class TokenDetailActivity extends AppCompatActivity {
 
     // 获取代币详细信息的函数
     private void getTokenDetails(String tokenName) {
-        String tokenId = getTokenId(tokenName); // 获取 CoinGecko 的 ID
+        String tokenId = getTokenId(tokenName);
         if (tokenId == null) {
             tokenNameTextView.setText("未找到代币的 ID");
             return;
@@ -68,7 +66,6 @@ public class TokenDetailActivity extends AppCompatActivity {
                     tokenSymbolTextView.setText("符号: " + tokenDetails.getSymbol());
                     tokenPriceTextView.setText("当前价格: $" + tokenDetails.getMarketData().getCurrentPrice().get("usd"));
 
-                    // 添加代币简介展示
                     if (tokenDetails.getDescription() != null && !tokenDetails.getDescription().get("en").isEmpty()) {
                         tokenDescriptionTextView.setText("简介: " + tokenDetails.getDescription().get("en"));
                     } else {
@@ -89,26 +86,32 @@ public class TokenDetailActivity extends AppCompatActivity {
     // 根据代币名称映射到 CoinGecko ID
     private String getTokenId(String tokenName) {
         switch (tokenName) {
-            case "USDT (Tether)":
-                return "tether";
-            case "USDC (USD Coin)":
-                return "usd-coin";
-            case "BNB (Binance Coin)":
+            case "ETH":
+                return "ethereum";
+            case "BNB":
                 return "binancecoin";
-            case "DAI (Dai Stablecoin)":
-                return "dai";
-            case "LINK (Chainlink)":
-                return "chainlink";
-            case "UNI (Uniswap)":
-                return "uniswap";
-            case "WBTC (Wrapped Bitcoin)":
-                return "wrapped-bitcoin";
-            case "MKR (Maker)":
-                return "maker";
-            case "SUSHI (SushiSwap)":
-                return "sushi";
-            case "AAVE (Aave)":
+            case "USDT":
+                return "tether";
+            case "SOL":
+                return "solana";
+            case "USDC":
+                return "usd-coin";
+            case "1INCH":
+                return "1inch";
+            case "AAVE":
                 return "aave";
+            case "LINK":
+                return "chainlink";
+            case "MKR":
+                return "maker";
+            case "SUSHI":
+                return "sushi";
+            case "UNI":
+                return "uniswap";
+            case "YFI":
+                return "yearn-finance";
+            case "BAT":
+                return "basic-attention-token";
             default:
                 return null;
         }

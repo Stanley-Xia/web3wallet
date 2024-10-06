@@ -1,5 +1,6 @@
 package com.example.web3wallet;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String KEY_WALLET = "walletAddress";
     private static final String KEY_USERNAME = "username";
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,8 +93,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ApiKeyActivity.class);
                 startActivity(intent);
-                // 添加旋转动画
-                v.animate().rotationBy(360f).setDuration(250).start();
             }
         });
 
@@ -312,13 +312,13 @@ public class MainActivity extends AppCompatActivity {
                         String message = jsonObject.getString("message");
                         String balanceInWei = jsonObject.getString("result");
 
-                        BigDecimal balanceInEther = new BigDecimal(balanceInWei).divide(new BigDecimal("1000000000000000000"), 10, RoundingMode.HALF_UP);
+                        BigDecimal balanceInEther = new BigDecimal(balanceInWei).divide(new BigDecimal("1000000000000000000"), 5, RoundingMode.HALF_UP);
 
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 if (status.equals("1") && message.equals("OK")) {
-                                    textBalance.setText("You have " + balanceInEther.toString() + " ETH");
+                                    textBalance.setText(balanceInEther.toString() + " ETH");
                                 } else {
                                     textBalance.setText("查询失败: " + message);
                                 }
