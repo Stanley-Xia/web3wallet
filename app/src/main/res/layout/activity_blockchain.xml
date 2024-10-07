@@ -19,6 +19,43 @@
             android:orientation="vertical"
             android:gravity="center">
 
+            <!-- 网络状态卡片 -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardNetworkStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="-100dp"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardBackgroundColor="@android:color/transparent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp"
+                    android:gravity="center"
+                    android:background="@drawable/card_gradient_5">
+
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:padding="2dp"
+                        android:src="@drawable/ic_blockchain_network" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Network Status"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF"
+                        android:layout_marginTop="16dp" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
             <!-- 创建钱包卡片 -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardCreateWallet"
@@ -145,6 +182,7 @@
                     <ImageView
                         android:layout_width="64dp"
                         android:layout_height="64dp"
+                        android:padding="6dp"
                         android:src="@drawable/ic_nft_blockchain" />
 
                     <TextView

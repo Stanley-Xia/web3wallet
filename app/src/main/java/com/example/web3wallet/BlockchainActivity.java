@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -24,6 +25,7 @@ public class BlockchainActivity extends AppCompatActivity {
     private CardView cardCreateWallet;
     private CardView cardRecoverWallet;
     private CardView cardNFT;
+    private CardView cardNetworkStatus;
     private static final String PREFS_NAME = "WalletPrefs";
     private static final String KEY_USERNAME = "username";
     private static final String KEY_WALLET_ADDRESS_SUFFIX = "_walletAddress";
@@ -35,6 +37,7 @@ public class BlockchainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_blockchain);
 
         // 初始化卡片
+        cardNetworkStatus = findViewById(R.id.cardNetworkStatus);
         cardSmartContract = findViewById(R.id.cardSmartContract);
         cardCreateWallet = findViewById(R.id.cardCreateWallet);
         cardRecoverWallet = findViewById(R.id.cardRecoverWallet);
@@ -46,16 +49,14 @@ public class BlockchainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        // 按下时缩小
                         v.animate().scaleX(0.95f).scaleY(0.95f).setDuration(100).start();
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        // 抬起时恢复原样
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                         break;
                 }
-                return false; // 返回 false 让点击事件继续传播
+                return false;
             }
         });
 
@@ -86,16 +87,14 @@ public class BlockchainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        // 按下时缩小
                         v.animate().scaleX(0.95f).scaleY(0.95f).setDuration(100).start();
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        // 抬起时恢复原样
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                         break;
                 }
-                return false; // 返回 false 让点击事件继续传播
+                return false;
             }
         });
 
@@ -114,16 +113,14 @@ public class BlockchainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        // 按下时缩小
                         v.animate().scaleX(0.95f).scaleY(0.95f).setDuration(100).start();
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        // 抬起时恢复原样
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                         break;
                 }
-                return false; // 返回 false 让点击事件继续传播
+                return false;
             }
         });
 
@@ -148,16 +145,14 @@ public class BlockchainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        // 按下时缩小
                         v.animate().scaleX(0.95f).scaleY(0.95f).setDuration(100).start();
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        // 抬起时恢复原样
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                         break;
                 }
-                return false; // 返回 false 让点击事件继续传播
+                return false;
             }
         });
 
@@ -166,6 +161,32 @@ public class BlockchainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(BlockchainActivity.this, "NFT 功能尚未完成，敬请期待！", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // 网络状态卡片触摸事件
+        cardNetworkStatus.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.animate().scaleX(0.95f).scaleY(0.95f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false;
+            }
+        });
+
+        // 网络状态卡片点击事件
+        cardNetworkStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BlockchainActivity.this, NetworkStatusActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -188,13 +209,13 @@ public class BlockchainActivity extends AppCompatActivity {
         Cursor cursor = dbHelper.getPrivateKeyCursor(username); // 获取私钥的 Cursor
 
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        String walletAddress = sharedPreferences.getString(username + KEY_WALLET_ADDRESS_SUFFIX, null); // 检查钱包地址
+        String walletAddress = sharedPreferences.getString(username + KEY_WALLET_ADDRESS_SUFFIX, null);
 
         boolean hasPrivateKey = false;
         if (cursor != null && cursor.moveToFirst()) {
             String encryptedPrivateKey = cursor.getString(cursor.getColumnIndexOrThrow("private_key"));
             hasPrivateKey = encryptedPrivateKey != null && !encryptedPrivateKey.isEmpty();
-            cursor.close();  // 关闭 Cursor
+            cursor.close();
         }
 
         if (walletAddress != null || hasPrivateKey) {
@@ -213,6 +234,10 @@ public class BlockchainActivity extends AppCompatActivity {
             final String[] walletData = WalletUtils.createWallet();
             final String walletAddress = walletData[0];
             final String privateKey = walletData[1];
+
+            // 加载动画
+            Intent intent = new Intent(BlockchainActivity.this, WalletLoadingActivity.class);
+            startActivity(intent);
 
             Log.d("BlockchainActivity", "生成的钱包地址：" + walletAddress);
             Log.d("BlockchainActivity", "生成的私钥：" + privateKey);
@@ -234,62 +259,65 @@ public class BlockchainActivity extends AppCompatActivity {
 
     // 提示用户输入密码并加密私钥
     private void promptUserForPasswordAndEncryptPrivateKey(final String username, final String privateKey, final String walletAddress) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("请输入密码以加密私钥");
+        Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("请输入密码以加密私钥");
 
-        final EditText passwordInput = new EditText(this);
-        passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        passwordInput.setHint("请输入密码");
-        builder.setView(passwordInput);
+            final EditText passwordInput = new EditText(this);
+            passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            passwordInput.setHint("请输入密码");
+            builder.setView(passwordInput);
 
-        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+            builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                String password = passwordInput.getText().toString();
-                if (!password.isEmpty()) {
-                    try {
-                        // 使用用户输入的密码加密私钥
-                        String encryptedPrivateKey = EncryptionUtil.encrypt(privateKey, password);
+                    String password = passwordInput.getText().toString();
+                    if (!password.isEmpty()) {
+                        try {
+                            // 使用用户输入的密码加密私钥
+                            String encryptedPrivateKey = EncryptionUtil.encrypt(privateKey, password);
 
-                        // 将加密后的私钥存入数据库
-                        UserDatabaseHelper dbHelper = new UserDatabaseHelper(BlockchainActivity.this);
-                        boolean updateResult = dbHelper.updatePrivateKey(username, privateKey, password);
+                            // 将加密后的私钥存入数据库
+                            UserDatabaseHelper dbHelper = new UserDatabaseHelper(BlockchainActivity.this);
+                            boolean updateResult = dbHelper.updatePrivateKey(username, privateKey, password);
 
-                        if (updateResult) {
-                            // 保存钱包地址到 SharedPreferences
-                            SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString(username + KEY_WALLET_ADDRESS_SUFFIX, walletAddress);
-                            editor.apply();
+                            if (updateResult) {
+                                // 保存钱包地址到 SharedPreferences
+                                SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString(username + KEY_WALLET_ADDRESS_SUFFIX, walletAddress);
+                                editor.apply();
 
-                            Log.d("BlockchainActivity", "钱包地址已保存：" + walletAddress);
+                                Log.d("BlockchainActivity", "钱包地址已保存：" + walletAddress);
 
-                            Toast.makeText(BlockchainActivity.this, "钱包地址生成成功！", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(BlockchainActivity.this, "私钥保存失败", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(BlockchainActivity.this, "钱包地址生成成功！", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(BlockchainActivity.this, "私钥保存失败", Toast.LENGTH_SHORT).show();
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(BlockchainActivity.this, "私钥加密失败", Toast.LENGTH_SHORT).show();
                         }
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Toast.makeText(BlockchainActivity.this, "私钥加密失败", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(BlockchainActivity.this, "密码不能为空", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Toast.makeText(BlockchainActivity.this, "密码不能为空", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
+            });
 
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-                dialog.cancel();
-                Toast.makeText(BlockchainActivity.this, "已取消创建钱包", Toast.LENGTH_SHORT).show();
-            }
-        });
+                    dialog.cancel();
+                    Toast.makeText(BlockchainActivity.this, "已取消创建钱包", Toast.LENGTH_SHORT).show();
+                }
+            });
 
-        builder.show();
+            builder.show();
+        },1000);
     }
 
     // 显示恢复钱包对话框
@@ -332,7 +360,6 @@ public class BlockchainActivity extends AppCompatActivity {
                 // 从私钥生成钱包地址
                 String walletAddress = WalletUtils.getAddressFromPrivateKey(privateKey);
 
-                // 将地址存入剪贴板
                 copyToClipboard(walletAddress);
                 Toast.makeText(BlockchainActivity.this, "钱包地址已复制到剪贴板: " + walletAddress, Toast.LENGTH_LONG).show();
 

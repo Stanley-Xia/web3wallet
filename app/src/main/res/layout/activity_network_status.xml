@@ -1,0 +1,95 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:background="#F4F4F4">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ethereum Network"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_marginBottom="60dp"
+        android:gravity="center_horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.5">
+
+        <LinearLayout
+            android:id="@+id/linearBlockHeight"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_margin="16dp"
+            android:orientation="horizontal"
+            android:background="@drawable/card_background_2"
+            android:elevation="4dp"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/icon_block_height" />
+
+            <TextView
+                android:id="@+id/tvBlockHeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Block Height: "
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#333333"
+                android:layout_marginStart="16dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearGasPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_margin="16dp"
+            android:orientation="horizontal"
+            android:background="@drawable/card_background_2"
+            android:elevation="4dp"
+            android:gravity="center_vertical"
+            app:layout_constraintTop_toBottomOf="@+id/linearBlockHeight"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/icon_gas_price" />
+
+            <TextView
+                android:id="@+id/tvGasPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gas Price: "
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#333333"
+                android:layout_marginStart="16dp"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

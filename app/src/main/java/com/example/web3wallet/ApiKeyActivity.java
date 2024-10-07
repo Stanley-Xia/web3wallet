@@ -28,7 +28,6 @@ public class ApiKeyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_api_key);
 
-        // 初始化 UI 元素
         editEtherscanApi = findViewById(R.id.editEtherscanApi);
         editAlchemyApi = findViewById(R.id.editAlchemyApi);
         btnSaveApiKey = findViewById(R.id.btnSaveApi);
@@ -58,12 +57,12 @@ public class ApiKeyActivity extends AppCompatActivity {
                     editor.apply();
 
                     // 显示保存成功的提示
-                    Toast.makeText(ApiKeyActivity.this, "API Keys 已保存", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ApiKeyActivity.this, "API Keys saved successfully", Toast.LENGTH_SHORT).show();
 
                     finish();
                 } else {
                     // 提示用户输入有效的 API Key
-                    Toast.makeText(ApiKeyActivity.this, "请输入有效的 API Keys", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ApiKeyActivity.this, "Please enter valid API Keys", Toast.LENGTH_SHORT).show();
                 }
             }
         });

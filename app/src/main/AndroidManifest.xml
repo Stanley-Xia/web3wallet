@@ -32,10 +32,12 @@
         <activity android:name=".TokenListActivity" />
         <activity android:name=".TokenDetailActivity" />
         <activity android:name=".SmartContractActivity" />
-        <activity android:name=".MyAccountActivity"/>
-        <activity android:name=".TransactionHistoryActivity"/>
-        <activity android:name=".MoreFeaturesActivity"/>
+        <activity android:name=".MyAccountActivity" />
+        <activity android:name=".TransactionHistoryActivity" />
+        <activity android:name=".MoreFeaturesActivity" />
         <activity android:name=".BlockchainActivity" />
+        <activity android:name=".NetworkStatusActivity" />
+        <activity android:name=".WalletLoadingActivity" />
 
     </application>
 
