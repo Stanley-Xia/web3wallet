@@ -26,7 +26,7 @@
             android:id="@+id/tvLoadingMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="钱包正在生成中..."
+            android:text="Generating wallet..."
             android:textSize="18sp"
             android:textColor="#333333"
             android:layout_marginTop="60dp"

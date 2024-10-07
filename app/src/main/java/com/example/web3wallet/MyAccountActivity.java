@@ -26,7 +26,7 @@ public class MyAccountActivity extends AppCompatActivity {
     private TextView tvAccountName;
     private Button btnLogin, btnRegister;
     private ImageView ivLogout, ivMoreFeatures, ivHome, ivSettings;
-    private FrameLayout ivImportKeys, ivExportKeys, ivSwitchUser;
+    private FrameLayout ivImportKeys, ivExportKeys, ivSwitchUser, ivHelp;
 
     private SharedPreferences sharedPreferences;
     private UserDatabaseHelper userDatabaseHelper;
@@ -50,6 +50,7 @@ public class MyAccountActivity extends AppCompatActivity {
         ivMoreFeatures = findViewById(R.id.ivMoreFeatures);
         ivSwitchUser = findViewById(R.id.ivSwitchUser);
         ivSettings = findViewById(R.id.ivSettings);
+        ivHelp = findViewById(R.id.ivHelp);
 
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         userDatabaseHelper = new UserDatabaseHelper(this);
@@ -194,6 +195,32 @@ public class MyAccountActivity extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        // 帮助按钮触摸事件
+        ivHelp.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false;
+            }
+        });
+
+        // 帮助按钮点击事件
+        ivHelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MyAccountActivity.this, FaqActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -444,20 +471,28 @@ public class MyAccountActivity extends AppCompatActivity {
 
     // 将加密后的私钥保存到数据库
     private void savePrivateKey(String privateKey, String password) {
-        String username = sharedPreferences.getString(KEY_USERNAME, null); // 获取当前用户名
+        String username = sharedPreferences.getString(KEY_USERNAME, null);
         if (username != null) {
-            boolean isUpdated = userDatabaseHelper.updatePrivateKey(username, privateKey, password); // 使用加密方法更新私钥
-            if (isUpdated) {
-                Toast.makeText(MyAccountActivity.this, "私钥已成功保存", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(MyAccountActivity.this, "私钥保存失败", Toast.LENGTH_SHORT).show();
+            try {
+                String encryptedPrivateKey = EncryptionUtil.encrypt(privateKey, password);
+
+                boolean isUpdated = userDatabaseHelper.updatePrivateKey(username, encryptedPrivateKey, password);
+                if (isUpdated) {
+                    Toast.makeText(MyAccountActivity.this, "私钥已成功保存", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MyAccountActivity.this, "私钥保存失败", Toast.LENGTH_SHORT).show();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(MyAccountActivity.this, "私钥加密失败", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     // 导出私钥，将私钥复制到剪贴板
     private void exportPrivateKey() {
-        String username = sharedPreferences.getString(KEY_USERNAME, null); // 获取当前用户名
+        String username = sharedPreferences.getString(KEY_USERNAME, null);
         if (username != null) {
             showExportKeyDialog();
         }
@@ -540,12 +575,19 @@ public class MyAccountActivity extends AppCompatActivity {
                     if (!password.isEmpty()) {
                         String username = sharedPreferences.getString(KEY_USERNAME, null);
                         if (username != null) {
-                            String privateKey = userDatabaseHelper.getPrivateKey(username, password);
-                            if (privateKey != null) {
-                                copyToClipboard(privateKey);
-                                Toast.makeText(MyAccountActivity.this, "私钥已复制到剪贴板", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(MyAccountActivity.this, "私钥解密失败", Toast.LENGTH_SHORT).show();
+                            String encryptedPrivateKey = userDatabaseHelper.getPrivateKey(username, password);
+                            try {
+                                String privateKey = EncryptionUtil.decrypt(encryptedPrivateKey, password);
+
+                                if (privateKey != null) {
+                                    copyToClipboard(privateKey);
+                                    Toast.makeText(MyAccountActivity.this, "私钥已复制到剪贴板", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(MyAccountActivity.this, "私钥解密失败", Toast.LENGTH_SHORT).show();
+                                }
+
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
                             }
                         }
                         dialog.dismiss();

@@ -39,6 +39,9 @@
         <activity android:name=".NetworkStatusActivity" />
         <activity android:name=".WalletLoadingActivity" />
 
+        <activity android:name=".FaqActivity" />
+
+
     </application>
 
 </manifest>

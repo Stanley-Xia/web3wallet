@@ -4,4 +4,14 @@
     <color name="white">#FFFFFFFF</color>
     <color name="green">#4CAF50</color>
     <color name="red">#F44336</color>
+
+    <color name="gradient">
+        <gradient xmlns:android="http://schemas.android.com/apk/res/android"
+            android:startColor="#FF6FD8"
+            android:centerColor="#7A81FF"
+            android:endColor="#6FFFE9"
+            android:angle="45"
+            android:type="linear" />
+    </color>
+
 </resources>
