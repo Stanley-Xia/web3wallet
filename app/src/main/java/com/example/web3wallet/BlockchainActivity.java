@@ -11,12 +11,15 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class BlockchainActivity extends AppCompatActivity {
@@ -36,7 +39,6 @@ public class BlockchainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blockchain);
 
-        // 初始化卡片
         cardNetworkStatus = findViewById(R.id.cardNetworkStatus);
         cardSmartContract = findViewById(R.id.cardSmartContract);
         cardCreateWallet = findViewById(R.id.cardCreateWallet);
@@ -206,7 +208,7 @@ public class BlockchainActivity extends AppCompatActivity {
     // 检查账户是否绑定了私钥
     private void checkWalletBindingForUser(String username) {
         UserDatabaseHelper dbHelper = new UserDatabaseHelper(this);
-        Cursor cursor = dbHelper.getPrivateKeyCursor(username); // 获取私钥的 Cursor
+        Cursor cursor = dbHelper.getPrivateKeyCursor(username);
 
         SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         String walletAddress = sharedPreferences.getString(username + KEY_WALLET_ADDRESS_SUFFIX, null);
@@ -261,18 +263,31 @@ public class BlockchainActivity extends AppCompatActivity {
     private void promptUserForPasswordAndEncryptPrivateKey(final String username, final String privateKey, final String walletAddress) {
         Handler handler = new Handler();
         handler.postDelayed(() -> {
+            View customView = getLayoutInflater().inflate(R.layout.custom_password_dialog, null);
+            TextView walletAddressTextView = customView.findViewById(R.id.wallet_address);
+
+            final EditText passwordInput = customView.findViewById(R.id.password_input);
+            FrameLayout confirmButton = customView.findViewById(R.id.dialog_button_confirm);
+            FrameLayout cancelButton = customView.findViewById(R.id.dialog_button_cancel);
+
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("请输入密码以加密私钥");
+            builder.setView(customView);
 
-            final EditText passwordInput = new EditText(this);
-            passwordInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-            passwordInput.setHint("请输入密码");
-            builder.setView(passwordInput);
+            final AlertDialog dialog = builder.create();
 
-            builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
+            }
+
+            dialog.show();
+
+            walletAddressTextView.setText(walletAddress);
+            walletAddressTextView.setVisibility(View.VISIBLE);
+
+            // 确认按钮点击事件
+            confirmButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-
+                public void onClick(View v) {
                     String password = passwordInput.getText().toString();
                     if (!password.isEmpty()) {
                         try {
@@ -281,7 +296,7 @@ public class BlockchainActivity extends AppCompatActivity {
 
                             // 将加密后的私钥存入数据库
                             UserDatabaseHelper dbHelper = new UserDatabaseHelper(BlockchainActivity.this);
-                            boolean updateResult = dbHelper.updatePrivateKey(username, privateKey, password);
+                            boolean updateResult = dbHelper.updatePrivateKey(username, encryptedPrivateKey, password);
 
                             if (updateResult) {
                                 // 保存钱包地址到 SharedPreferences
@@ -292,7 +307,7 @@ public class BlockchainActivity extends AppCompatActivity {
 
                                 Log.d("BlockchainActivity", "钱包地址已保存：" + walletAddress);
 
-                                Toast.makeText(BlockchainActivity.this, "钱包地址生成成功！", Toast.LENGTH_LONG).show();
+                                Toast.makeText(BlockchainActivity.this, "钱包创建成功，请妥善保管私钥！", Toast.LENGTH_LONG).show();
                             } else {
                                 Toast.makeText(BlockchainActivity.this, "私钥保存失败", Toast.LENGTH_SHORT).show();
                             }
@@ -301,22 +316,24 @@ public class BlockchainActivity extends AppCompatActivity {
                             e.printStackTrace();
                             Toast.makeText(BlockchainActivity.this, "私钥加密失败", Toast.LENGTH_SHORT).show();
                         }
+                        dialog.dismiss();
                     } else {
                         Toast.makeText(BlockchainActivity.this, "密码不能为空", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
 
-            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            // 取消按钮点击事件
+            cancelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                    dialog.cancel();
+                public void onClick(View v) {
+                    dialog.dismiss();
                     Toast.makeText(BlockchainActivity.this, "已取消创建钱包", Toast.LENGTH_SHORT).show();
                 }
             });
 
-            builder.show();
+            // 显示对话框
+            dialog.show();
         },1000);
     }
 
