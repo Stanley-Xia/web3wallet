@@ -1,7 +1,9 @@
 package com.example.web3wallet;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +25,7 @@ public class ApiKeyActivity extends AppCompatActivity {
     private static final String KEY_ETHERSCAN_API = "etherscanapi";
     private static final String KEY_ALCHEMY_API = "alchemyapi";
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +44,24 @@ public class ApiKeyActivity extends AppCompatActivity {
         editEtherscanApi.setText(savedEtherscanApiKey);
         editAlchemyApi.setText(savedAlchemyApiKey);
 
-        // 设置保存按钮的点击事件
+        // 保存按钮触摸事件
+        btnSaveApiKey.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false;
+            }
+        });
+
+        // 保存按钮点击事件
         btnSaveApiKey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

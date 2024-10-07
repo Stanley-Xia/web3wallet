@@ -11,12 +11,12 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -260,10 +260,11 @@ public class BlockchainActivity extends AppCompatActivity {
     }
 
     // 提示用户输入密码并加密私钥
+    @SuppressLint("ClickableViewAccessibility")
     private void promptUserForPasswordAndEncryptPrivateKey(final String username, final String privateKey, final String walletAddress) {
         Handler handler = new Handler();
         handler.postDelayed(() -> {
-            View customView = getLayoutInflater().inflate(R.layout.custom_password_dialog, null);
+            View customView = getLayoutInflater().inflate(R.layout.custom_creation_dialog, null);
             TextView walletAddressTextView = customView.findViewById(R.id.wallet_address);
 
             final EditText passwordInput = customView.findViewById(R.id.password_input);
@@ -281,8 +282,28 @@ public class BlockchainActivity extends AppCompatActivity {
 
             dialog.show();
 
+            dialog.getWindow().setLayout((int) (getResources().getDisplayMetrics().widthPixels * 0.9),
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+
             walletAddressTextView.setText(walletAddress);
             walletAddressTextView.setVisibility(View.VISIBLE);
+
+            // 确认按钮触摸事件
+            confirmButton.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                            break;
+                        case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_CANCEL:
+                            v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                            break;
+                    }
+                    return false;
+                }
+            });
 
             // 确认按钮点击事件
             confirmButton.setOnClickListener(new View.OnClickListener() {
@@ -323,6 +344,23 @@ public class BlockchainActivity extends AppCompatActivity {
                 }
             });
 
+            // 取消按钮触摸事件
+            cancelButton.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                            break;
+                        case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_CANCEL:
+                            v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                            break;
+                    }
+                    return false;
+                }
+            });
+
             // 取消按钮点击事件
             cancelButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -332,41 +370,93 @@ public class BlockchainActivity extends AppCompatActivity {
                 }
             });
 
-            // 显示对话框
             dialog.show();
         },1000);
     }
 
     // 显示恢复钱包对话框
+    @SuppressLint("ClickableViewAccessibility")
     private void showRecoverWalletDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("恢复钱包");
+        Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            View customView = getLayoutInflater().inflate(R.layout.custom_recovery_dialog, null);
+            EditText privateKeyInput = customView.findViewById(R.id.private_input);
+            FrameLayout confirmButton = customView.findViewById(R.id.dialog_button_confirm);
+            FrameLayout cancelButton = customView.findViewById(R.id.dialog_button_cancel);
 
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        input.setHint("请输入私钥");
-        builder.setView(input);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setView(customView);
 
-        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String privateKey = input.getText().toString();
-                if (!privateKey.isEmpty()) {
-                    recoverWallet(privateKey); // 调用恢复钱包方法
-                } else {
-                    Toast.makeText(BlockchainActivity.this, "私钥不能为空", Toast.LENGTH_SHORT).show();
+            final AlertDialog dialog = builder.create();
+
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
+            }
+
+            dialog.show();
+
+            dialog.getWindow().setLayout((int) (getResources().getDisplayMetrics().widthPixels * 0.9),
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            // 确认按钮触摸事件
+            confirmButton.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                            break;
+                        case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_CANCEL:
+                            v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                            break;
+                    }
+                    return false;
                 }
-            }
-        });
+            });
 
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+            // 确认按钮点击事件
+            confirmButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String privateKey = privateKeyInput.getText().toString();
+                    if (!privateKey.isEmpty()) {
+                        recoverWallet(privateKey); // 调用恢复钱包方法
+                        dialog.dismiss();  // 关闭对话框
+                    } else {
+                        Toast.makeText(BlockchainActivity.this, "私钥不能为空", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
 
-        builder.show();
+            // 取消按钮触摸事件
+            cancelButton.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                            break;
+                        case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_CANCEL:
+                            v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                            break;
+                    }
+                    return false;
+                }
+            });
+
+            // 取消按钮点击事件
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();  // 关闭对话框
+                    Toast.makeText(BlockchainActivity.this, "已取消恢复钱包", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            dialog.show();
+        },200);
     }
 
     // 恢复钱包方法

@@ -12,7 +12,7 @@
         android:id="@+id/dialog_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="钱包创建成功！"
+        android:text="新钱包创建成功！"
         android:textSize="20sp"
         android:textColor="#00FFAA"
         android:layout_gravity="center"
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:minHeight="48dp"
         android:background="@drawable/edit_text_background"
-        android:hint="请输入密码加密私钥"
+        android:hint="请输入密码以加密私钥"
         android:inputType="textPassword"
         android:padding="10dp"
         android:textSize="16sp" />

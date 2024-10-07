@@ -78,7 +78,7 @@ public class TransactionActivity extends AppCompatActivity {
         }
 
         // 获取当前登录的用户名
-        String username = sharedPreferences.getString("username", null);
+        String username = sharedPreferences.getString("username", "Not Logged In");
 
         // 设置账号显示
         tvCurrentAccount.setText(username);

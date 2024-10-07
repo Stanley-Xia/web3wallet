@@ -196,6 +196,7 @@ public class MyAccountActivity extends AppCompatActivity {
             }
         });
 
+        // 设置按钮触摸事件
         ivSettings.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -212,14 +213,14 @@ public class MyAccountActivity extends AppCompatActivity {
             }
         });
 
+        // 设置按钮点击事件
         ivSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 显示 "功能正在开发中" 的提示信息
+                v.animate().rotationBy(360f).setDuration(500).start();
                 Toast.makeText(MyAccountActivity.this, "功能正在开发中", Toast.LENGTH_SHORT).show();
             }
         });
-
 
         // 更多功能按钮触摸事件
         ivMoreFeatures.setOnTouchListener(new View.OnTouchListener() {
@@ -276,7 +277,7 @@ public class MyAccountActivity extends AppCompatActivity {
         });
 
         // 退出登录按钮触摸事件
-        ivHome.setOnTouchListener(new View.OnTouchListener() {
+        ivLogout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -304,7 +305,7 @@ public class MyAccountActivity extends AppCompatActivity {
     private void loadSavedUsername() {
         String username = sharedPreferences.getString(KEY_USERNAME, null);
         if (username != null && !username.isEmpty()) {
-            tvAccountName.setText("Account: " + username);
+            tvAccountName.setText("User: " + username);
         } else {
             tvAccountName.setText("Not Logged In");
         }
@@ -316,10 +317,15 @@ public class MyAccountActivity extends AppCompatActivity {
         editor.remove(KEY_USERNAME);
         editor.apply();
 
+        tvAccountName.setText("Not Logged In");
+        Toast.makeText(MyAccountActivity.this, "已退出登录", Toast.LENGTH_SHORT).show();
+
+/*
         Intent intent = new Intent(MyAccountActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
+*/
     }
 
     // 显示导入私钥对话框

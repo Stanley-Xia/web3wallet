@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // 初始化 UI 元素
         editWalletAddress = findViewById(R.id.editWalletAddress);
         btnCheckBalance = findViewById(R.id.btnCheckBalance);
         btnGoToApiKey = findViewById(R.id.btnGoToApiKey);
@@ -74,16 +73,14 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        // 按下时缩小
                         v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        // 抬起时恢复原样
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                         break;
                 }
-                return false; // 返回 false 让点击事件继续传播
+                return false;
             }
         });
 
@@ -102,16 +99,14 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        // 按下时缩小
-                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        v.animate().scaleX(0.8f).scaleY(0.8f).setDuration(100).start();
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        // 抬起时恢复原样
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                         break;
                 }
-                return false; // 返回 false 让点击事件继续传播
+                return false;
             }
         });
 
@@ -137,16 +132,14 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        // 按下时缩小
                         v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        // 抬起时恢复原样
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                         break;
                 }
-                return false; // 返回 false 让点击事件继续传播
+                return false;
             }
         });
 
@@ -165,16 +158,14 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        // 按下时缩小
                         v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        // 抬起时恢复原样
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                         break;
                 }
-                return false; // 返回 false 让点击事件继续传播
+                return false;
             }
         });
 
@@ -193,16 +184,14 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        // 按下时缩小
                         v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        // 抬起时恢复原样
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                         break;
                 }
-                return false; // 返回 false 让点击事件继续传播
+                return false;
             }
         });
 
@@ -221,16 +210,14 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        // 按下时缩小
                         v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        // 抬起时恢复原样
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                         break;
                 }
-                return false; // 返回 false 让点击事件继续传播
+                return false;
             }
         });
 
@@ -249,16 +236,14 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        // 按下时缩小
-                        v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                        v.animate().scaleX(0.7f).scaleY(0.7f).setDuration(100).start();
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
-                        // 抬起时恢复原样
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                         break;
                 }
-                return false; // 返回 false 让点击事件继续传播
+                return false;
             }
         });
 
@@ -267,17 +252,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String walletAddress = editWalletAddress.getText().toString();
+
+                // 清除焦点并隐藏键盘
+                editWalletAddress.clearFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(editWalletAddress.getWindowToken(), 0);
+                }
+
                 if (!walletAddress.isEmpty()) {
                     String username = sharedPreferences.getString(KEY_USERNAME, null);
                     if (username != null) {
                         saveWalletAddressForUser(username, walletAddress);
                         Toast.makeText(MainActivity.this, "地址已保存", Toast.LENGTH_SHORT).show();
-
-                        editWalletAddress.clearFocus();
-                        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                        if (imm != null) {
-                            imm.hideSoftInputFromWindow(editWalletAddress.getWindowToken(), 0);
-                        }
                     }
                 } else {
                     Toast.makeText(MainActivity.this, "请输入有效的钱包地址", Toast.LENGTH_SHORT).show();

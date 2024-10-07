@@ -41,7 +41,7 @@
                     <ImageView
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:padding="2dp"
+                        android:padding="6dp"
                         android:src="@drawable/ic_blockchain_network" />
 
                     <TextView
@@ -182,8 +182,8 @@
                     <ImageView
                         android:layout_width="64dp"
                         android:layout_height="64dp"
-                        android:padding="6dp"
-                        android:src="@drawable/ic_nft_blockchain" />
+                        android:padding="2dp"
+                        android:src="@drawable/ic_blockchain_nft" />
 
                     <TextView
                         android:layout_width="wrap_content"
