@@ -7,7 +7,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MotionEvent;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -38,7 +40,6 @@ public class MyAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_account);
 
-        // 初始化
         tvAccountName = findViewById(R.id.tv_account_name);
         btnLogin = findViewById(R.id.btnLogin);
         btnRegister = findViewById(R.id.btnRegister);
@@ -319,7 +320,6 @@ public class MyAccountActivity extends AppCompatActivity {
 
         tvAccountName.setText("Not Logged In");
         Toast.makeText(MyAccountActivity.this, "已退出登录", Toast.LENGTH_SHORT).show();
-
 /*
         Intent intent = new Intent(MyAccountActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -329,32 +329,88 @@ public class MyAccountActivity extends AppCompatActivity {
     }
 
     // 显示导入私钥对话框
+    @SuppressLint("ClickableViewAccessibility")
     private void showImportKeyDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("导入私钥");
+        Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        final EditText input = new EditText(this); // 创建一个输入框
-        input.setHint("请输入私钥");
-        builder.setView(input);
+            @SuppressLint("InflateParams")
+            View customView = getLayoutInflater().inflate(R.layout.dialog_import_key, null);
 
-        builder.setPositiveButton("保存", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String privateKey = input.getText().toString(); // 获取用户输入的私钥
-                if (!privateKey.isEmpty()) {
-                    showPasswordDialogAndSaveKey(privateKey); // 调用方法让用户输入密码并加密保存私钥
+            EditText keyInput = customView.findViewById(R.id.key_input);
+            FrameLayout btnCancel = customView.findViewById(R.id.dialog_button_cancel);
+            FrameLayout btnConfirm = customView.findViewById(R.id.dialog_button_confirm);
+
+            builder.setView(customView);
+
+            final AlertDialog dialog = builder.create();
+
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background);
+            }
+
+            dialog.show();
+
+            dialog.getWindow().setLayout((int) (getResources().getDisplayMetrics().widthPixels * 0.9),
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            // 取消按钮触摸事件
+            btnCancel.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                            break;
+                        case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_CANCEL:
+                            v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                            break;
+                    }
+                    return false;
                 }
-            }
-        });
+            });
 
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel(); // 取消对话框
-            }
-        });
+            // 确认按钮触摸事件
+            btnConfirm.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                            break;
+                        case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_CANCEL:
+                            v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                            break;
+                    }
+                    return false;
+                }
+            });
 
-        builder.show(); // 显示对话框
+            // 取消按钮点击事件
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            // 确认按钮点击事件
+            btnConfirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String privateKey = keyInput.getText().toString();
+                    if (!privateKey.isEmpty()) {
+                        showPasswordDialogAndSaveKey(privateKey);
+                        dialog.dismiss();
+                    } else {
+                        Toast.makeText(MyAccountActivity.this, "私钥不能为空", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        },200);
     }
 
     // 显示密码输入框，并保存加密后的私钥
@@ -362,7 +418,7 @@ public class MyAccountActivity extends AppCompatActivity {
         AlertDialog.Builder passwordDialog = new AlertDialog.Builder(this);
         passwordDialog.setTitle("输入密码加密私钥");
 
-        final EditText passwordInput = new EditText(this); // 创建密码输入框
+        final EditText passwordInput = new EditText(this);
         passwordInput.setHint("请输入密码");
         passwordDialog.setView(passwordInput);
 
@@ -383,7 +439,7 @@ public class MyAccountActivity extends AppCompatActivity {
             }
         });
 
-        passwordDialog.show(); // 显示密码输入对话框
+        passwordDialog.show();
     }
 
     // 将加密后的私钥保存到数据库
@@ -403,43 +459,102 @@ public class MyAccountActivity extends AppCompatActivity {
     private void exportPrivateKey() {
         String username = sharedPreferences.getString(KEY_USERNAME, null); // 获取当前用户名
         if (username != null) {
-            showPasswordDialogAndExportKey(username);
+            showExportKeyDialog();
         }
     }
 
-    // 显示密码输入框并导出解密后的私钥
-    private void showPasswordDialogAndExportKey(final String username) {
-        AlertDialog.Builder passwordDialog = new AlertDialog.Builder(this);
-        passwordDialog.setTitle("输入密码解密私钥");
+    // 显示导出私钥对话框
+    @SuppressLint("ClickableViewAccessibility")
+    private void showExportKeyDialog() {
+        Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        final EditText passwordInput = new EditText(this); // 创建密码输入框
-        passwordInput.setHint("请输入密码");
-        passwordDialog.setView(passwordInput);
+            @SuppressLint("InflateParams")
+            View customView = getLayoutInflater().inflate(R.layout.dialog_export_key, null);
 
-        passwordDialog.setPositiveButton("导出", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String password = passwordInput.getText().toString();
-                if (!password.isEmpty()) {
-                    String privateKey = userDatabaseHelper.getPrivateKey(username, password); // 使用密码解密私钥
-                    if (privateKey != null) {
-                        copyToClipboard(privateKey);
-                        Toast.makeText(MyAccountActivity.this, "私钥已复制到剪贴板", Toast.LENGTH_SHORT).show();
+            EditText passwordInput = customView.findViewById(R.id.password_input);
+            FrameLayout btnCancel = customView.findViewById(R.id.dialog_button_cancel);
+            FrameLayout btnConfirm = customView.findViewById(R.id.dialog_button_confirm);
+
+            builder.setView(customView);
+
+            final AlertDialog dialog = builder.create();
+
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_background_3);
+            }
+
+            dialog.show();
+
+            dialog.getWindow().setLayout((int) (getResources().getDisplayMetrics().widthPixels * 0.9),
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            // 取消按钮触摸事件
+            btnCancel.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                            break;
+                        case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_CANCEL:
+                            v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                            break;
+                    }
+                    return false;
+                }
+            });
+
+            // 确认按钮触摸事件
+            btnConfirm.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            v.animate().scaleX(0.9f).scaleY(0.9f).setDuration(100).start();
+                            break;
+                        case MotionEvent.ACTION_UP:
+                        case MotionEvent.ACTION_CANCEL:
+                            v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                            break;
+                    }
+                    return false;
+                }
+            });
+
+            // 取消按钮点击事件
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            // 确认按钮点击事件
+            btnConfirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String password = passwordInput.getText().toString();
+                    if (!password.isEmpty()) {
+                        String username = sharedPreferences.getString(KEY_USERNAME, null);
+                        if (username != null) {
+                            String privateKey = userDatabaseHelper.getPrivateKey(username, password);
+                            if (privateKey != null) {
+                                copyToClipboard(privateKey);
+                                Toast.makeText(MyAccountActivity.this, "私钥已复制到剪贴板", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(MyAccountActivity.this, "私钥解密失败", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        dialog.dismiss();
                     } else {
-                        Toast.makeText(MyAccountActivity.this, "私钥解密失败", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MyAccountActivity.this, "密码不能为空", Toast.LENGTH_SHORT).show();
                     }
                 }
-            }
-        });
-
-        passwordDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        passwordDialog.show(); // 显示密码输入对话框
+            });
+        },200);
     }
 
     // 将私钥复制到剪贴板
@@ -449,7 +564,6 @@ public class MyAccountActivity extends AppCompatActivity {
         clipboard.setPrimaryClip(clip);
     }
 
-    // 每次进入页面时都不会自动获得焦点
     @Override
     protected void onResume() {
         super.onResume();

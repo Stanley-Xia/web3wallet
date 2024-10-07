@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/dialog_background_4"
+
+    android:background="@drawable/dialog_background_3"
     android:layout_gravity="center"
     android:padding="20dp">
 
@@ -11,35 +12,23 @@
         android:id="@+id/dialog_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Recover Wallet"
-        android:textStyle="bold"
+        android:text="Export Private Key"
         android:textSize="20sp"
+        android:textStyle="bold"
         android:textColor="#FFFFFF"
         android:layout_gravity="center"
-        android:paddingBottom="24dp" />
-
-    <TextView
-        android:id="@+id/dialog_description"
-        android:layout_width="wrap_content"
-        android:layout_marginHorizontal="6dp"
-        android:layout_height="wrap_content"
-        android:text="To recover your wallet, please enter your private key"
-        android:textSize="14sp"
-        android:textColor="#FFFFFF"
-        android:textIsSelectable="true"
-        android:layout_gravity="center_horizontal"
-        android:paddingBottom="24dp" />
+        android:paddingBottom="36dp" />
 
     <EditText
-        android:id="@+id/private_input"
+        android:id="@+id/password_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="48dp"
         android:background="@drawable/edit_text_background"
-        android:hint="Enter your private key"
+        android:hint="Enter your password"
         android:inputType="textPassword"
         android:padding="10dp"
-        android:textSize="14sp" />
+        android:textSize="16sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginEnd="10dp"
-            android:background="@drawable/btn_background_4"
+            android:background="@drawable/btn_background_3"
             android:minHeight="48dp"
             android:padding="12dp">
 
@@ -63,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
-                android:src="@drawable/btn_background_4"
+                android:src="@drawable/btn_background_3"
                 android:contentDescription="Button Background" />
 
             <TextView
@@ -71,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Cancel"
+                android:text="cancel"
                 android:textSize="16sp"
                 android:textColor="#FFFFFF" />
 
@@ -82,7 +71,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/btn_background_4"
+            android:background="@drawable/btn_background_3"
             android:minHeight="48dp"
             android:padding="12dp">
 
@@ -91,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
-                android:src="@drawable/btn_background_4"
+                android:src="@drawable/btn_background_3"
                 android:contentDescription="Button Background" />
 
             <TextView
@@ -99,7 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Confirm"
+                android:text="comfirm"
                 android:textSize="16sp"
                 android:textColor="#FFFFFF" />
 
