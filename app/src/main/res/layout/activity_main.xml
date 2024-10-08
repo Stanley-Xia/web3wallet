@@ -2,6 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
+    android:background="@drawable/gradient_background_main"
     android:focusableInTouchMode="true">
 
     <!-- 钱包地址输入框，保存按钮 -->
@@ -52,7 +53,7 @@
             android:layout_height="wrap_content"
             android:text="Ethereum Balance"
             android:textSize="18sp"
-            android:textColor="#62686E"
+            android:textColor="#FFF9C4"
             android:padding="12dp"
             android:gravity="center"/>
     </LinearLayout>
@@ -180,19 +181,19 @@
 
         <Button
             android:id="@+id/btnQueryTokens"
-            android:backgroundTint="#C3B091"
+            android:backgroundTint="#B39DDB"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="54dp"
             android:foregroundGravity="center"
             android:foreground="@drawable/ic_token_detail"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="7.5dp"
             android:layout_marginEnd="32dp"
             android:contentDescription="Token Button"/>
 
         <Button
             android:id="@+id/btnTransfer"
-            android:backgroundTint="#C3B091"
+            android:backgroundTint="#B39DDB"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="54dp"
@@ -203,13 +204,13 @@
 
         <Button
             android:id="@+id/btnCheckBalance"
-            android:backgroundTint="#C3B091"
+            android:backgroundTint="#B39DDB"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="54dp"
             android:foregroundGravity="center"
             android:foreground="@drawable/ic_check_balance"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="7.5dp"
             android:contentDescription="Balance Button"/>
     </LinearLayout>
 

@@ -15,15 +15,17 @@ import java.io.IOException;
 
 public class NetworkStatusActivity extends AppCompatActivity {
 
-    private TextView tvBlockHeight, tvGasPrice;
+    private TextView tvTitle, tvBlockHeight, tvGasPrice, tvEthereumPrice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_network_status);
 
+        tvTitle = findViewById(R.id.tvTitle);
         tvBlockHeight = findViewById(R.id.tvBlockHeight);
         tvGasPrice = findViewById(R.id.tvGasPrice);
+        tvEthereumPrice = findViewById(R.id.tvEthereumPrice);
 
         fetchNetworkStatus();
     }
@@ -34,17 +36,19 @@ public class NetworkStatusActivity extends AppCompatActivity {
         String etherscanApiKey = prefs.getString("etherscanapi", "");
 
         if (etherscanApiKey.isEmpty()) {
-            runOnUiThread(() -> tvBlockHeight.setText("API Key not found in SharedPreferences"));
+            runOnUiThread(() -> tvTitle.setText("API Key not found in SharedPreferences"));
             return;
         }
 
         String blockUrl = "https://api.etherscan.io/api?module=proxy&action=eth_blockNumber&apikey=" + etherscanApiKey;
         String gasPriceUrl = "https://api.etherscan.io/api?module=proxy&action=eth_gasPrice&apikey=" + etherscanApiKey;
+        String priceUrl = "https://api.etherscan.io/api?module=stats&action=ethprice&apikey=" + etherscanApiKey;
 
         OkHttpClient client = new OkHttpClient();
 
         fetchBlockHeight(client, blockUrl);
         fetchGasPrice(client, gasPriceUrl);
+        fetchEthereumPrice(client, priceUrl);
     }
 
     // 获取区块高度
@@ -94,6 +98,35 @@ public class NetworkStatusActivity extends AppCompatActivity {
                         String gasPriceInGwei = String.valueOf(gasPriceInWei / Math.pow(10, 9));
 
                         runOnUiThread(() -> tvGasPrice.setText("Gas Price: " + gasPriceInGwei + " Gwei"));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    // 获取以太坊价格
+    private void fetchEthereumPrice(OkHttpClient client, String priceUrl) {
+        Request priceRequest = new Request.Builder().url(priceUrl).build();
+        client.newCall(priceRequest).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    try {
+                        String priceJson = response.body().string();
+                        JSONObject priceObject = new JSONObject(priceJson);
+                        String ethUsdPrice = priceObject.getJSONObject("result").getString("ethusd");
+
+                        double ethPrice = Double.parseDouble(ethUsdPrice);
+                        String formattedPrice = String.format("%.2f", ethPrice);
+
+                        runOnUiThread(() -> tvEthereumPrice.setText("ETH Price: " + formattedPrice + " USD"));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
