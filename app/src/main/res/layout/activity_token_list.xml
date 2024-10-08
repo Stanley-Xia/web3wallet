@@ -12,6 +12,7 @@
         android:layout_height="0dp"
         android:divider="@drawable/transparent_divider"
         android:dividerHeight="2dp"
+        android:scrollbars="none"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/moreInfoButton"
         app:layout_constraintStart_toStartOf="parent"
