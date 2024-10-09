@@ -56,6 +56,10 @@ public class TokenListActivity extends AppCompatActivity {
         tokenList.add(new Token("SOL", "$", R.drawable.token_sol));
         tokenList.add(new Token("USDC", "$", R.drawable.token_usdc));
         tokenList.add(new Token("DAI", "$", R.drawable.token_dai));
+        tokenList.add(new Token("TRX", "$", R.drawable.token_trx));
+        tokenList.add(new Token("BTC", "$", R.drawable.token_btc));
+        tokenList.add(new Token("ADA", "$", R.drawable.token_ada));
+        tokenList.add(new Token("AVAX", "$", R.drawable.token_avax));
 
         //初始化适配器
         tokenAdapter = new TokenAdapter(this, tokenList);
@@ -70,13 +74,11 @@ public class TokenListActivity extends AppCompatActivity {
         // 创建 API 服务
         service = retrofit.create(CoinGeckoPriceService.class);
 
-        // 更新代币的价格和涨跌幅
         updateAllTokenPrices();
 
-        // 初始化更多信息按钮
         moreInfoButton = findViewById(R.id.moreInfoButton);
 
-        // 更多信息按钮触摸效果
+        // 更多信息按钮触摸事件
         moreInfoButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -89,7 +91,7 @@ public class TokenListActivity extends AppCompatActivity {
                         v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                         break;
                 }
-                return false; // 返回 false 让点击事件继续传播
+                return false;
             }
         });
 
@@ -153,6 +155,18 @@ public class TokenListActivity extends AppCompatActivity {
 
                     tokenList.get(13).setPrice("$" + (prices.get("dai") != null && prices.get("dai").get("usd") != null ? prices.get("dai").get("usd").toString() : "N/A"));
                     tokenList.get(13).setPriceChange24h(prices.get("dai") != null && prices.get("dai").get("usd_24h_change") != null ? prices.get("dai").get("usd_24h_change") : 0.0);
+
+                    tokenList.get(14).setPrice("$" + (prices.get("tron") != null && prices.get("tron").get("usd") != null ? prices.get("tron").get("usd").toString() : "N/A"));
+                    tokenList.get(14).setPriceChange24h(prices.get("tron") != null && prices.get("tron").get("usd_24h_change") != null ? prices.get("tron").get("usd_24h_change") : 0.0);
+
+                    tokenList.get(15).setPrice("$" + (prices.get("bitcoin") != null && prices.get("bitcoin").get("usd") != null ? prices.get("bitcoin").get("usd").toString() : "N/A"));
+                    tokenList.get(15).setPriceChange24h(prices.get("bitcoin") != null && prices.get("bitcoin").get("usd_24h_change") != null ? prices.get("bitcoin").get("usd_24h_change") : 0.0);
+
+                    tokenList.get(16).setPrice("$" + (prices.get("cardano") != null && prices.get("cardano").get("usd") != null ? prices.get("cardano").get("usd").toString() : "N/A"));
+                    tokenList.get(16).setPriceChange24h(prices.get("cardano") != null && prices.get("cardano").get("usd_24h_change") != null ? prices.get("cardano").get("usd_24h_change") : 0.0);
+
+                    tokenList.get(17).setPrice("$" + (prices.get("avalanche-2") != null && prices.get("avalanche-2").get("usd") != null ? prices.get("avalanche-2").get("usd").toString() : "N/A"));
+                    tokenList.get(17).setPriceChange24h(prices.get("avalanche-2") != null && prices.get("avalanche-2").get("usd_24h_change") != null ? prices.get("avalanche-2").get("usd_24h_change") : 0.0);
 
                     // 通知适配器数据已更改
                     tokenAdapter.notifyDataSetChanged();

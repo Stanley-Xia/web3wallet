@@ -1,7 +1,11 @@
 package com.example.web3wallet;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,7 +20,9 @@ import java.io.IOException;
 public class NetworkStatusActivity extends AppCompatActivity {
 
     private TextView tvTitle, tvBlockHeight, tvGasPrice, tvEthereumPrice;
+    private ImageView ivRefresh;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,8 +32,32 @@ public class NetworkStatusActivity extends AppCompatActivity {
         tvBlockHeight = findViewById(R.id.tvBlockHeight);
         tvGasPrice = findViewById(R.id.tvGasPrice);
         tvEthereumPrice = findViewById(R.id.tvEthereumPrice);
+        ivRefresh = findViewById(R.id.ivRefresh);
 
         fetchNetworkStatus();
+
+        // 刷新按钮触摸事件
+        ivRefresh.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.animate().scaleX(0.8f).scaleY(0.8f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false;
+            }
+        });
+
+        // 刷新按钮点击事件
+        ivRefresh.setOnClickListener(v -> {
+            v.animate().rotationBy(720f).setDuration(800).start();
+            fetchNetworkStatus();
+        });
     }
 
     private void fetchNetworkStatus() {
