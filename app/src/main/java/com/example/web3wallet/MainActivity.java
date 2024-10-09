@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnCheckBalance, btnTransfer, btnQueryTokens;
     private FrameLayout btnBlockchain, btnMyAccount;
     private ImageView ethLogo, btnGoToApiKey, btnSaveAddress;
-    private TextView textBalance;
+    private TextView textBalance, tvAccount;
 
     private SharedPreferences sharedPreferences;
 
@@ -64,8 +64,16 @@ public class MainActivity extends AppCompatActivity {
         btnSaveAddress = findViewById(R.id.ivSaveIcon);
         ethLogo = findViewById(R.id.ethLogo);
         textBalance = findViewById(R.id.textBalance);
+        tvAccount = findViewById(R.id.tvAccount);
 
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+
+        String username = sharedPreferences.getString(KEY_USERNAME, null);
+        if (username != null && !username.isEmpty()) {
+            tvAccount.setText(username);
+        } else {
+            tvAccount.setText("Login / Sign up");
+        }
 
         // 设置接口按钮触摸事件
         btnGoToApiKey.setOnTouchListener(new View.OnTouchListener() {
@@ -390,7 +398,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // 每次进入页面时都不会自动获得焦点
     @Override
     protected void onResume() {
         super.onResume();
@@ -399,8 +406,14 @@ public class MainActivity extends AppCompatActivity {
             rootView.clearFocus();
         }
 
-        // 重新加载保存的钱包地址
         loadSavedWalletAddress();
+
+        String username = sharedPreferences.getString(KEY_USERNAME, null);
+        if (username != null && !username.isEmpty()) {
+            tvAccount.setText(username);
+        } else {
+            tvAccount.setText("Login / Sign up");
+        }
     }
 
 }

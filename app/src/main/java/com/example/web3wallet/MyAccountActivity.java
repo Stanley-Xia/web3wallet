@@ -333,7 +333,7 @@ public class MyAccountActivity extends AppCompatActivity {
     private void loadSavedUsername() {
         String username = sharedPreferences.getString(KEY_USERNAME, null);
         if (username != null && !username.isEmpty()) {
-            tvAccountName.setText("User: " + username);
+            tvAccountName.setText(username);
         } else {
             tvAccountName.setText("Not Logged In");
         }

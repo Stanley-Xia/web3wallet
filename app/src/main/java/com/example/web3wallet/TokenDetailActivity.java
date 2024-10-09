@@ -120,6 +120,14 @@ public class TokenDetailActivity extends AppCompatActivity {
                 return "basic-attention-token";
             case "DAI":
                 return "dai";
+            case "TRX":
+                return "tron";
+            case "BTC":
+                return "bitcoin";
+            case "ADA":
+                return "cardano";
+            case "AVAX":
+                return "avalanche-2";
             default:
                 return null;
         }
