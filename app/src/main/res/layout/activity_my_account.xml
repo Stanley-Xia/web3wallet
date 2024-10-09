@@ -21,7 +21,7 @@
 
         <!-- 账号图标 -->
         <ImageView
-            android:id="@+id/account_logo"
+            android:id="@+id/ivAccountLogo"
             android:layout_width="192dp"
             android:layout_height="192dp"
             android:layout_gravity="center"
@@ -30,14 +30,13 @@
             android:layout_marginTop="16dp"/>
 
         <!-- 账号名显示 -->
-        <TextView
+        <com.example.web3wallet.GradientTextView
             android:id="@+id/tv_account_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Not Logged In"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="#7F8C8D"
             android:padding="12dp"
             android:gravity="center"
             android:layout_marginTop="0dp"/>

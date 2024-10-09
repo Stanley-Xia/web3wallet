@@ -15,7 +15,7 @@
         android:backgroundTint="#87CEEB"
         android:background="@drawable/blue_border_background">
 
-        <EditText
+        <com.example.web3wallet.GradientEditText
             android:id="@+id/editWalletAddress"
             android:layout_width="0dp"
             android:layout_height="match_parent"

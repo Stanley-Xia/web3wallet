@@ -1,5 +1,7 @@
 package com.example.web3wallet;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.ClipboardManager;
 import android.content.ClipData;
@@ -25,7 +27,7 @@ public class MyAccountActivity extends AppCompatActivity {
 
     private TextView tvAccountName;
     private Button btnLogin, btnRegister;
-    private ImageView ivLogout, ivMoreFeatures, ivHome, ivSettings;
+    private ImageView ivLogout, ivMoreFeatures, ivHome, ivSettings, ivAccountLogo;
     private FrameLayout ivImportKeys, ivExportKeys, ivSwitchUser, ivHelp;
 
     private SharedPreferences sharedPreferences;
@@ -51,11 +53,52 @@ public class MyAccountActivity extends AppCompatActivity {
         ivSwitchUser = findViewById(R.id.ivSwitchUser);
         ivSettings = findViewById(R.id.ivSettings);
         ivHelp = findViewById(R.id.ivHelp);
+        ivAccountLogo = findViewById(R.id.ivAccountLogo);
 
         sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         userDatabaseHelper = new UserDatabaseHelper(this);
 
         loadSavedUsername();
+
+        // 账号图标触摸事件
+        ivAccountLogo.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        v.animate().scaleX(0.95f).scaleY(0.95f).setDuration(100).start();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
+                        break;
+                }
+                return false;
+            }
+        });
+
+        // 账号图标点击事件
+        ivAccountLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 创建 ObjectAnimator 实现左右抖动的效果
+                ObjectAnimator moveRight = ObjectAnimator.ofFloat(v, "translationX", 0f, 25f);
+                ObjectAnimator moveLeft = ObjectAnimator.ofFloat(v, "translationX", 25f, -25f);
+                ObjectAnimator moveBack = ObjectAnimator.ofFloat(v, "translationX", -25f, 0f);
+
+                // 设置动画时间
+                moveRight.setDuration(100);
+                moveLeft.setDuration(100);
+                moveBack.setDuration(100);
+
+                // 将动画组合为 AnimatorSet
+                AnimatorSet animatorSet = new AnimatorSet();
+                animatorSet.playSequentially(moveRight, moveLeft, moveBack);
+
+                // 开始动画
+                animatorSet.start();
+            }
+        });
 
         // 登录按钮触摸事件
         btnLogin.setOnTouchListener(new View.OnTouchListener() {
